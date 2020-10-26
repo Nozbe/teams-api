@@ -1,8 +1,30 @@
 const randomId = require("../utils/randomId");
 
+const getTasks = async (apiClient, { projectId }) => {
+  try {
+    const {
+      data: {
+        changes: {
+          tasks: { updated },
+        },
+      },
+    } = await apiClient.get("sync", {
+      collection_name: "tasks",
+    });
+
+    if (projectId) {
+      return updated.filter((task) => task.project_id === projectId);
+    }
+
+    return updated;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const addTask = async (apiClient, { taskName, projectId }) => {
   try {
-    const data = await apiClient.post("sync", {
+    await apiClient.post("sync", {
       tasks: {
         created: [
           {
@@ -23,4 +45,7 @@ const addTask = async (apiClient, { taskName, projectId }) => {
   }
 };
 
-exports.addTask = module.exports.addTask = addTask;
+exports = module.exports = {
+  getTasks,
+  addTask,
+};

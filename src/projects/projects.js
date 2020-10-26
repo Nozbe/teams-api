@@ -12,9 +12,11 @@ const getAllProjects = async (apiClient) => {
 
 const getSingleActionsProjectId = async (apiClient) => {
   const allProjects = await getAllProjects(apiClient);
-  console.log(allProjects.find((project) => project.is_single_actions).id);
+
   return allProjects.find((project) => project.is_single_actions).id;
 };
 
-exports.getAllProjects = module.exports.getAllProjects = getAllProjects;
-exports.getSingleActionsProjectId = module.exports.getSingleActionsProjectId = getSingleActionsProjectId;
+exports = module.exports = {
+  getAllProjects,
+  getSingleActionsProjectId,
+};

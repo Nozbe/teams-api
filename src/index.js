@@ -1,7 +1,7 @@
-const instantiateAxios = require("./adapter");
+const instantiateAxios = require("./utils/axios-adapter");
 
-const task = require("./task/task");
-const projects = require("./projects/projects");
+const Tasks = require("./task/task");
+const Projects = require("./projects/projects");
 
 class NozbeTeamsClient {
   constructor(apiKey) {
@@ -11,16 +11,12 @@ class NozbeTeamsClient {
     });
   }
 
-  async _init() {
-    this._singleActionsProjectId = await projects.getSingleActionsProjectId(
-      this._apiClient
-    );
-  }
-
   async _getSingleActionsProjectId() {
-    this._singleActionsProjectId = await projects.getSingleActionsProjectId(
+    this._singleActionsProjectId = await Projects.getSingleActionsProjectId(
       this._apiClient
     );
+
+    return this._singleActionsProjectId;
   }
 
   async getLoggedUserData() {
@@ -33,13 +29,22 @@ class NozbeTeamsClient {
     }
   }
 
+  async getTasks(projectId) {
+    try {
+      const tasks = await Tasks.getTasks(this._apiClient, { projectId });
+      return tasks;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async addTask(taskName, projectId) {
     try {
       if (!projectId && !this._singleActionsProjectId) {
         await this._getSingleActionsProjectId();
       }
 
-      await task.addTask(this._apiClient, {
+      await tasks.addTask(this._apiClient, {
         taskName,
         projectId: projectId || this._singleActionsProjectId,
       });
@@ -50,7 +55,7 @@ class NozbeTeamsClient {
 
   async getAllProjects() {
     try {
-      const allProjects = await projects.getAllProjects(this._apiClient);
+      const allProjects = await Projects.getAllProjects(this._apiClient);
 
       return allProjects;
     } catch (err) {
@@ -58,3 +63,5 @@ class NozbeTeamsClient {
     }
   }
 }
+
+exports = module.exports = NozbeTeamsClient;
