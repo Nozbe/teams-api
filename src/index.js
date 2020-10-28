@@ -2,6 +2,7 @@ const instantiateAxios = require("./utils/axios-adapter");
 
 const Tasks = require("./task/task");
 const Projects = require("./projects/projects");
+const comments = require("./comments/comments");
 
 class NozbeTeamsClient {
   constructor(apiKey) {
@@ -58,6 +59,18 @@ class NozbeTeamsClient {
       const allProjects = await Projects.getAllProjects(this._apiClient);
 
       return allProjects;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async addComment(taskId, commentText) {
+    try {
+      if (!taskId || !commentText) {
+        // throw Error (?)
+      }
+
+      await comments.addComment(this._apiClient, { taskId, commentText });
     } catch (err) {
       console.error(err);
     }
