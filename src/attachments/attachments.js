@@ -1,7 +1,6 @@
-const request = require("request");
+const request = require("request-promise-native");
 
 const randomId = require("../utils/randomId");
-const { API_URL } = require("../utils/axios-adapter");
 
 const addAttachment = async (
   apiClient,
@@ -29,7 +28,7 @@ const addAttachment = async (
       to use to fetch the file from the URL and send it to the /files endpoint.
       It may need a refactoring at some point.
     */
-    const file = request(attachmentUrl);
+    const file = await request.get(attachmentUrl);
 
     await apiClient.post("sync", {
       comments: {
