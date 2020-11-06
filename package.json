@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "webpack",
+    "develop": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,7 +26,8 @@
   },
   "homepage": "https://github.com/Nozbe/teams-api#readme",
   "dependencies": {
-    "axios": "^0.21.0"
+    "axios": "^0.21.0",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "webpack": "^5.2.0",
