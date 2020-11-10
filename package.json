@@ -1,0 +1,34 @@
+{
+  "name": "teams-api",
+  "version": "0.0.1",
+  "description": "Nozbe Teams API wrapper for Node.js",
+  "main": "dist/teams-api.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nozbe/teams-api.git"
+  },
+  "keywords": [
+    "nozbe",
+    "nozbe-teams"
+  ],
+  "author": "Krystian Kościelniak <krystian@koscielniak.pro>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nozbe/teams-api/issues"
+  },
+  "homepage": "https://github.com/Nozbe/teams-api#readme",
+  "dependencies": {
+    "axios": "^0.21.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0"
+  }
+}
