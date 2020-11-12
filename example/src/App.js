@@ -1,14 +1,17 @@
-import logo from "./logo.svg";
-import "./App.css";
-
-import AuthComponent from "./auth/authComponent";
-import { useReducer, useEffect } from "react";
+import AuthComponent from "./auth/auth-component";
+import { useReducer } from "react";
 import TeamsApi from "teams-api";
+
+import "./App.css";
+import ProjectList from "./project-list/project-list";
 
 const initialState = {
   authorized: false,
   user: null,
   authorizeError: false,
+
+  projects: null,
+  selectedProjectId: null,
 };
 
 const reducer = (state, action) => {
@@ -26,6 +29,14 @@ const reducer = (state, action) => {
         user: null,
         authorizeError: true,
       };
+    case "FETCH_PROJECTS_SUCCESS":
+      const projects = action.payload;
+      console.log(projects);
+      return {
+        ...state,
+        projects,
+        selectedProjectId: projects[0].id,
+      };
   }
 };
 
@@ -40,10 +51,16 @@ function App() {
 
       const response = await client.getLoggedUserData();
 
-      console.log(response.data);
       dispatch({
         type: "FETCH_USER_DATA_SUCCESS",
         payload: response.data,
+      });
+
+      const projectsResponse = await client.getAllProjects();
+
+      dispatch({
+        type: "FETCH_PROJECTS_SUCCESS",
+        payload: projectsResponse,
       });
     } catch (err) {
       dispatch({
@@ -53,13 +70,18 @@ function App() {
     }
   };
 
-  const { user } = state;
+  const { user, projects, selectedProjectId } = state;
 
   return (
     <div className="App">
       {!user && <AuthComponent {...{ authorize }} />}
 
-      {user && <span>Hello {user.name}</span>}
+      {user && (
+        <>
+          <span>Hello {user.name}</span>
+          <ProjectList {...{ projects, selectedProjectId }} />
+        </>
+      )}
     </div>
   );
 }
