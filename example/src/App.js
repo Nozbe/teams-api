@@ -4,6 +4,7 @@ import TeamsApi from "teams-api";
 
 import "./App.css";
 import ProjectList from "./project-list/project-list";
+import TasksList from "./tasks-list/tasks-list";
 
 const initialState = {
   authorized: false,
@@ -12,6 +13,8 @@ const initialState = {
 
   projects: null,
   selectedProjectId: null,
+
+  tasks: null,
 };
 
 const reducer = (state, action) => {
@@ -36,6 +39,12 @@ const reducer = (state, action) => {
         ...state,
         projects,
         selectedProjectId: projects[0].id,
+      };
+    case "FETCH_TASKS_SUCCESS":
+      const tasks = action.payload;
+      return {
+        ...state,
+        tasks,
       };
   }
 };
@@ -62,6 +71,13 @@ function App() {
         type: "FETCH_PROJECTS_SUCCESS",
         payload: projectsResponse,
       });
+
+      const tasksResponse = await client.getTasks(projectsResponse[0].id);
+
+      dispatch({
+        type: "FETCH_TASKS_SUCCESS",
+        payload: tasksResponse,
+      });
     } catch (err) {
       dispatch({
         type: "FETCH_USER_DATA_FAILURE",
@@ -70,7 +86,7 @@ function App() {
     }
   };
 
-  const { user, projects, selectedProjectId } = state;
+  const { user, projects, selectedProjectId, tasks } = state;
 
   return (
     <div className="App">
@@ -80,6 +96,7 @@ function App() {
         <>
           <span>Hello {user.name}</span>
           <ProjectList {...{ projects, selectedProjectId }} />
+          <TasksList {...{ tasks }} />
         </>
       )}
     </div>
