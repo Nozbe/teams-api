@@ -2,7 +2,7 @@ import React from "react";
 import AddTask from "./add-task";
 
 const TasksList = ({ tasks, addTask }) =>
-  tasks && (
+  tasks ? (
     <>
       <ul>
         {tasks.map((task) => (
@@ -11,6 +11,6 @@ const TasksList = ({ tasks, addTask }) =>
       </ul>
       <AddTask {...{ addTask }} />
     </>
-  );
+  ) : null;
 
 export default TasksList;
