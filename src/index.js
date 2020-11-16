@@ -46,7 +46,7 @@ class NozbeTeamsClient {
         await this._getSingleActionsProjectId();
       }
 
-      await tasks.addTask(this._apiClient, {
+      await Tasks.addTask(this._apiClient, {
         taskName,
         projectId: projectId || this._singleActionsProjectId,
       });
