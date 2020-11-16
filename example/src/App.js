@@ -41,10 +41,11 @@ const reducer = (state, action) => {
         selectedProjectId: projects[0].id,
       };
     case "FETCH_TASKS_SUCCESS":
-      const tasks = action.payload;
+      const { tasks, projectId } = action.payload;
       return {
         ...state,
         tasks,
+        selectedProjectId: projectId,
       };
   }
 };
@@ -92,8 +93,21 @@ function App() {
 
       dispatch({
         type: "FETCH_TASKS_SUCCESS",
-        payload: tasks,
+        payload: {
+          tasks,
+          projectId,
+        },
       });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const addTask = async (taskName) => {
+    try {
+      const { selectedProjectId } = state;
+
+      await client.addTask(taskName, selectedProjectId);
     } catch (err) {
       console.error(err);
     }
@@ -109,7 +123,7 @@ function App() {
         <>
           <span>Hello {user.name}</span>
           <ProjectList {...{ projects, selectedProjectId, selectProject }} />
-          <TasksList {...{ tasks }} />
+          <TasksList {...{ tasks, selectedProjectId, addTask }} />
         </>
       )}
     </div>
