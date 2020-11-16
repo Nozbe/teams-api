@@ -1,6 +1,7 @@
 import AuthComponent from "./auth/auth-component";
 import { useReducer } from "react";
-import TeamsApi from "teams-api";
+
+import useNozbeClient from "./hooks/use-nozbe-client";
 
 import "./App.css";
 import ProjectList from "./project-list/project-list";
@@ -34,7 +35,6 @@ const reducer = (state, action) => {
       };
     case "FETCH_PROJECTS_SUCCESS":
       const projects = action.payload;
-      console.log(projects);
       return {
         ...state,
         projects,
@@ -50,13 +50,13 @@ const reducer = (state, action) => {
 };
 
 function App() {
-  let client = null;
-
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const [client, createClient] = useNozbeClient();
 
   const authorize = async (accessToken) => {
     try {
-      client = new TeamsApi(accessToken);
+      createClient(accessToken);
 
       const response = await client.getLoggedUserData();
 
@@ -86,6 +86,19 @@ function App() {
     }
   };
 
+  const selectProject = async (projectId) => {
+    try {
+      const tasks = await client.getTasks(projectId);
+
+      dispatch({
+        type: "FETCH_TASKS_SUCCESS",
+        payload: tasks,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const { user, projects, selectedProjectId, tasks } = state;
 
   return (
@@ -95,7 +108,7 @@ function App() {
       {user && (
         <>
           <span>Hello {user.name}</span>
-          <ProjectList {...{ projects, selectedProjectId }} />
+          <ProjectList {...{ projects, selectedProjectId, selectProject }} />
           <TasksList {...{ tasks }} />
         </>
       )}
