@@ -3,9 +3,9 @@ import React from "react";
 const Badge = ({ projectId, selectedProjectId }) =>
   projectId === selectedProjectId ? "[x] " : "[ ] ";
 
-const ProjectList = ({ projects, selectedProjectId, selectProject }) => {
+const ProjectList = ({ projects, selectedProjectId, getTasks }) => {
   const handleSelectProject = (projectId) => {
-    selectProject(projectId);
+    getTasks(projectId);
   };
 
   return (

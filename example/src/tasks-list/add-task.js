@@ -5,6 +5,7 @@ const AddTask = ({ addTask }) => {
 
   const handleAddButton = () => {
     addTask(taskName);
+    setTaskName("");
   };
 
   return (
