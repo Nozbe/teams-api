@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 
-const AddTask = ({ addTask }) => {
-  const [taskName, setTaskName] = useState("");
+const AddComment = ({ addComment }) => {
+  const [commentBody, setCommentBody] = useState("");
 
   const handleAddButton = () => {
-    addTask(taskName);
-    setTaskName("");
+    addComment(commentBody);
+    setCommentBody("");
   };
 
   return (
-    <div>
+    <>
       <input
         type="text"
-        value={taskName}
+        value={commentBody}
         onChange={(event) => {
-          setTaskName(event.target.value);
+          setCommentBody(event.target.value);
         }}
       />
       <button value="Add task" onClick={handleAddButton}>
         Add task!
       </button>
-    </div>
+    </>
   );
 };
 
-export default AddTask;
+export default AddComment;

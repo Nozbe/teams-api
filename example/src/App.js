@@ -8,6 +8,7 @@ import useNozbeClient from "./hooks/use-nozbe-client";
 import "./App.css";
 import ProjectList from "./project-list/project-list";
 import TasksList from "./tasks-list/tasks-list";
+import CommentsList from "./comments-list/comments-list";
 
 function App() {
   const [client, createClient] = useNozbeClient();
@@ -37,6 +38,10 @@ function App() {
         type: "FETCH_TASKS_SUCCESS",
         payload: tasksResponse,
       });
+
+      console.log(tasksResponse);
+
+      await getComments(tasksResponse[0].id);
     } catch (err) {
       dispatch({
         type: "FETCH_USER_DATA_FAILURE",
@@ -73,7 +78,45 @@ function App() {
     }
   };
 
-  const { user, projects, selectedProjectId, tasks } = state;
+  const getComments = async (taskId) => {
+    try {
+      const comments = await client.getComments(taskId);
+
+      console.log(comments);
+
+      dispatch({
+        type: "FETCH_COMMENTS_SUCCESS",
+        payload: {
+          comments,
+          taskId,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const selectTask = async (taskId) => {
+    await getComments(taskId);
+  };
+
+  const addComment = async (commentBody) => {
+    try {
+      const { selectedTaskId } = state;
+      await client.addComment(selectedTaskId, commentBody);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const {
+    user,
+    projects,
+    selectedProjectId,
+    tasks,
+    selectedTaskId,
+    comments,
+  } = state;
 
   return (
     <div className="App">
@@ -83,7 +126,8 @@ function App() {
         <>
           <span>Hello {user.name}</span>
           <ProjectList {...{ projects, selectedProjectId, getTasks }} />
-          <TasksList {...{ tasks, selectedProjectId, addTask }} />
+          <TasksList {...{ tasks, selectedProjectId, addTask, selectTask }} />
+          <CommentsList {...{ comments, selectedTaskId, addComment }} />
         </>
       )}
     </div>

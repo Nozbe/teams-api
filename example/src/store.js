@@ -7,6 +7,9 @@ export const initialState = {
   selectedProjectId: null,
 
   tasks: null,
+  selectedCommentId: null,
+
+  comments: null,
 };
 
 export const reducer = (state, action) => {
@@ -37,6 +40,13 @@ export const reducer = (state, action) => {
         ...state,
         tasks,
         selectedProjectId: projectId,
+      };
+    case "FETCH_COMMENTS_SUCCESS":
+      const { taskId, comments } = action.payload;
+      return {
+        ...state,
+        comments,
+        selectedTaskId: taskId,
       };
   }
 };
