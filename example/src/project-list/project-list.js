@@ -1,7 +1,10 @@
 import React from "react";
+import zacs from "@nozbe/zacs";
 
-const Badge = ({ projectId, selectedProjectId }) =>
-  projectId === selectedProjectId ? "[x] " : "[ ] ";
+import Badge from "../shared/badge";
+
+const Label = zacs.text();
+const Box = zacs.view(null);
 
 const ProjectList = ({ projects, selectedProjectId, getTasks }) => {
   const handleSelectProject = (projectId) => {
@@ -9,18 +12,24 @@ const ProjectList = ({ projects, selectedProjectId, getTasks }) => {
   };
 
   return (
-    <>
-      <p>Projects:</p>
+    <Box>
+      <Label>Projects:</Label>
       <ul>
         {projects &&
           projects.map((project) => (
-            <li onClick={() => handleSelectProject(project.id)}>
-              <Badge projectId={project.id} {...{ selectedProjectId }}></Badge>
+            <li
+              key={project.id}
+              onClick={() => handleSelectProject(project.id)}
+            >
+              <Badge
+                elementId={project.id}
+                selectedElementId={selectedProjectId}
+              ></Badge>
               {project.name.length ? project.name : "Single Actions"}
             </li>
           ))}
       </ul>
-    </>
+    </Box>
   );
 };
 

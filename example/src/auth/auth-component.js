@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 const AuthComponent = ({ authorize }) => {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    "7GbRyUeDVshRJhe7_G7J4LqtwRSwq_5mnaTDldyEjnp1oQZNaPukdPQD5fhXsTGTN_dAZoppXhhQHbvTe"
+  );
 
   const handleOnChange = (event) => {
     setToken(event.target.value);

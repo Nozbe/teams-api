@@ -7,7 +7,7 @@ const CommentsList = ({ comments, addComment }) =>
       <p>Comments</p>
       <ul>
         {comments.map((comment) => (
-          <li>{comment.body}</li>
+          <li key={comment.id}>{comment.body}</li>
         ))}
       </ul>
       <AddComment {...{ addComment }} />

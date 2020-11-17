@@ -1,16 +1,16 @@
 import { useReducer } from "react";
 
-import AuthComponent from "./auth/auth-component";
-
 import { reducer, initialState } from "./store";
 import useNozbeClient from "./hooks/use-nozbe-client";
 
-import "./App.css";
+import Auth from "./auth/auth-component";
 import ProjectList from "./project-list/project-list";
 import TasksList from "./tasks-list/tasks-list";
 import CommentsList from "./comments-list/comments-list";
 
-function App() {
+import "./App.css";
+
+const App = () => {
   const [client, createClient] = useNozbeClient();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -38,8 +38,6 @@ function App() {
         type: "FETCH_TASKS_SUCCESS",
         payload: tasksResponse,
       });
-
-      console.log(tasksResponse);
 
       await getComments(tasksResponse[0].id);
     } catch (err) {
@@ -82,8 +80,6 @@ function App() {
     try {
       const comments = await client.getComments(taskId);
 
-      console.log(comments);
-
       dispatch({
         type: "FETCH_COMMENTS_SUCCESS",
         payload: {
@@ -104,6 +100,7 @@ function App() {
     try {
       const { selectedTaskId } = state;
       await client.addComment(selectedTaskId, commentBody);
+      await getComments(selectedTaskId);
     } catch (err) {
       console.error(err);
     }
@@ -120,18 +117,26 @@ function App() {
 
   return (
     <div className="App">
-      {!user && <AuthComponent {...{ authorize }} />}
+      {!user && <Auth {...{ authorize }} />}
 
       {user && (
         <>
-          <span>Hello {user.name}</span>
+          <span>Hello {user.name}. Welcome to mono-zbe.</span>
           <ProjectList {...{ projects, selectedProjectId, getTasks }} />
-          <TasksList {...{ tasks, selectedProjectId, addTask, selectTask }} />
+          <TasksList
+            {...{
+              tasks,
+              selectedProjectId,
+              addTask,
+              selectedTaskId,
+              selectTask,
+            }}
+          />
           <CommentsList {...{ comments, selectedTaskId, addComment }} />
         </>
       )}
     </div>
   );
-}
+};
 
 export default App;
