@@ -4,7 +4,7 @@ import AddTask from "./add-task";
 
 const TasksList = ({ tasks, selectTask, addTask, selectedTaskId }) =>
   tasks ? (
-    <>
+    <div>
       <ul>
         {tasks.map((task) => (
           <>
@@ -20,7 +20,7 @@ const TasksList = ({ tasks, selectTask, addTask, selectedTaskId }) =>
         ))}
       </ul>
       <AddTask {...{ addTask }} />
-    </>
+    </div>
   ) : null;
 
 export default TasksList;

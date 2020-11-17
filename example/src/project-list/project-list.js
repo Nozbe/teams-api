@@ -2,8 +2,10 @@ import React from "react";
 import zacs from "@nozbe/zacs";
 
 import Badge from "../shared/badge";
+import style from "./project-list.module.css";
+import ListItem from "../shared/list-item/list-item";
 
-const Label = zacs.text();
+const Label = zacs.text(style.title);
 const Box = zacs.view(null);
 
 const ProjectList = ({ projects, selectedProjectId, getTasks }) => {
@@ -14,10 +16,15 @@ const ProjectList = ({ projects, selectedProjectId, getTasks }) => {
   return (
     <Box>
       <Label>Projects:</Label>
-      <ul>
+      <ul
+        style={{
+          listStyleType: "none",
+          padding: 0,
+        }}
+      >
         {projects &&
           projects.map((project) => (
-            <li
+            <ListItem
               key={project.id}
               onClick={() => handleSelectProject(project.id)}
             >
@@ -26,7 +33,7 @@ const ProjectList = ({ projects, selectedProjectId, getTasks }) => {
                 selectedElementId={selectedProjectId}
               ></Badge>
               {project.name.length ? project.name : "Single Actions"}
-            </li>
+            </ListItem>
           ))}
       </ul>
     </Box>

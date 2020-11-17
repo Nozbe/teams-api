@@ -1,0 +1,8 @@
+.listItem {
+  cursor: pointer;
+  word-wrap: anywhere;
+}
+
+.listItem:hover {
+  text-decoration: underline;
+}

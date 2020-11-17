@@ -3,7 +3,7 @@ import AddComment from "./add-comment";
 
 const CommentsList = ({ comments, addComment }) =>
   comments ? (
-    <>
+    <div>
       <p>Comments</p>
       <ul>
         {comments.map((comment) => (
@@ -11,7 +11,7 @@ const CommentsList = ({ comments, addComment }) =>
         ))}
       </ul>
       <AddComment {...{ addComment }} />
-    </>
+    </div>
   ) : null;
 
 export default CommentsList;

@@ -122,17 +122,22 @@ const App = () => {
       {user && (
         <>
           <span>Hello {user.name}. Welcome to mono-zbe.</span>
-          <ProjectList {...{ projects, selectedProjectId, getTasks }} />
-          <TasksList
-            {...{
-              tasks,
-              selectedProjectId,
-              addTask,
-              selectedTaskId,
-              selectTask,
-            }}
-          />
-          <CommentsList {...{ comments, selectedTaskId, addComment }} />
+
+          <div
+            style={{ display: "grid", gridTemplateColumns: "300px 600px auto" }}
+          >
+            <ProjectList {...{ projects, selectedProjectId, getTasks }} />
+            <TasksList
+              {...{
+                tasks,
+                selectedProjectId,
+                addTask,
+                selectedTaskId,
+                selectTask,
+              }}
+            />
+            <CommentsList {...{ comments, selectedTaskId, addComment }} />
+          </div>
         </>
       )}
     </div>
