@@ -11,25 +11,26 @@ const Container = zacs.view(style.container, {});
 
 const Button = zacs.styled("button", style.button);
 
-const AddForm = ({ onClick, btnCaption }) => {
-  const [taskName, setTaskName] = useState("");
+const InputWithButton = ({ onClick, btnCaption, placeholder }) => {
+  const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
 
   const handleButton = () => {
-    onClick(taskName);
-    setTaskName("");
+    onClick(value);
+    setValue("");
   };
 
   return (
     <Container>
       <Input
         type="text"
-        value={taskName}
+        value={value}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        placeholder={placeholder}
         isFocused={focused}
         onChange={(event) => {
-          setTaskName(event.target.value);
+          setValue(event.target.value);
         }}
       />
       <Button onClick={handleButton}>{btnCaption || "Add task"}</Button>
@@ -37,4 +38,4 @@ const AddForm = ({ onClick, btnCaption }) => {
   );
 };
 
-export default AddForm;
+export default InputWithButton;

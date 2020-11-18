@@ -1,25 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
+import zacs from "@nozbe/zacs";
 
-const AuthComponent = ({ authorize }) => {
-  const [token, setToken] = useState(
-    "7GbRyUeDVshRJhe7_G7J4LqtwRSwq_5mnaTDldyEjnp1oQZNaPukdPQD5fhXsTGTN_dAZoppXhhQHbvTe"
-  );
+import InputWithButton from "../shared/input-with-button";
+import Box from "../shared/box";
 
-  const handleOnChange = (event) => {
-    setToken(event.target.value);
-  };
+import style from "./style.module.css";
 
-  const handleAuthorize = () => {
-    authorize(token);
-  };
+const Container = zacs.view(style.container);
 
+const AuthComponent = ({ createClient }) => {
   return (
-    <>
-      <input type="text" value={token} onChange={handleOnChange}></input>
-      <button value="authorize" onClick={handleAuthorize}>
-        authorize
-      </button>
-    </>
+    <Container>
+      <Box>
+        <div>
+          Welcome to Mononozbe. (monospaced Nozbe, get it? No? I'll walk myself
+          out...)
+        </div>
+        <br />
+        <br />
+        <InputWithButton
+          placeholder="access token..."
+          onClick={createClient}
+          btnCaption="Login"
+        />
+      </Box>
+    </Container>
   );
 };
 

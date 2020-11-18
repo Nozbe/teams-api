@@ -3,7 +3,7 @@ import React from "react";
 import Box from "../shared/box";
 import ListHeader from "../shared/list-header";
 import List from "../shared/list/list";
-import AddForm from "../shared/add-form";
+import InputWithButton from "../shared/input-with-button";
 
 const CommentsList = ({ comments, addComment }) =>
   comments ? (
@@ -15,7 +15,7 @@ const CommentsList = ({ comments, addComment }) =>
         }}
       >
         <List items={comments} itemContentKey="body" />
-        <AddForm onClick={addComment} btnCaption="Add comment" />
+        <InputWithButton onClick={addComment} btnCaption="Add comment" />
       </div>
     </Box>
   ) : null;

@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 import { reducer, initialState } from "./store";
 import useNozbeClient from "./hooks/use-nozbe-client";
@@ -16,30 +16,32 @@ const App = () => {
   const [client, createClient] = useNozbeClient();
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const authorize = async (accessToken) => {
-    try {
-      createClient(accessToken);
+  useEffect(() => {
+    const authorize = async () => {
+      try {
+        const response = await client.getLoggedUserData();
 
-      const response = await client.getLoggedUserData();
+        dispatch({
+          type: "FETCH_USER_DATA_SUCCESS",
+          payload: response.data,
+        });
 
-      dispatch({
-        type: "FETCH_USER_DATA_SUCCESS",
-        payload: response.data,
-      });
+        const projectsResponse = await client.getAllProjects();
 
-      const projectsResponse = await client.getAllProjects();
+        dispatch({
+          type: "FETCH_PROJECTS_SUCCESS",
+          payload: projectsResponse,
+        });
+      } catch (err) {
+        dispatch({
+          type: "FETCH_USER_DATA_FAILURE",
+        });
+        console.error(err);
+      }
+    };
 
-      dispatch({
-        type: "FETCH_PROJECTS_SUCCESS",
-        payload: projectsResponse,
-      });
-    } catch (err) {
-      dispatch({
-        type: "FETCH_USER_DATA_FAILURE",
-      });
-      console.error(err);
-    }
-  };
+    authorize();
+  }, [client]);
 
   const getTasks = async (projectId) => {
     try {
@@ -62,7 +64,6 @@ const App = () => {
       const { selectedProjectId } = state;
 
       await client.addTask(taskName, selectedProjectId);
-
       await getTasks(selectedProjectId);
     } catch (err) {
       console.error(err);
@@ -83,10 +84,6 @@ const App = () => {
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const selectTask = async (taskId) => {
-    await getComments(taskId);
   };
 
   const addComment = async (commentBody) => {
@@ -110,7 +107,7 @@ const App = () => {
 
   return (
     <div className="App">
-      {!user && <Auth {...{ authorize }} />}
+      {!user && <Auth {...{ createClient }} />}
 
       {user && (
         <>
@@ -130,7 +127,7 @@ const App = () => {
                 selectedProjectId,
                 addTask,
                 selectedTaskId,
-                selectTask,
+                getComments,
               }}
             />
             <CommentsList {...{ comments, selectedTaskId, addComment }} />

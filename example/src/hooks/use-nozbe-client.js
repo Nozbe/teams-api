@@ -6,7 +6,6 @@ const useNozbeClient = () => {
 
   const createNozbeClient = (token) => {
     const nozbeClient = new TeamsApi(token);
-
     setClient(nozbeClient);
   };
 

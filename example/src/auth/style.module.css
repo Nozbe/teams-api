@@ -1,0 +1,7 @@
+.container {
+  max-width: 800px;
+  justify-self: self-end;
+  display: flex;
+  align-self: center;
+  margin: calc(50vh - 60px) auto 0;
+}
