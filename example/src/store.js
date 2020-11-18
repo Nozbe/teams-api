@@ -32,7 +32,6 @@ export const reducer = (state, action) => {
       return {
         ...state,
         projects,
-        selectedProjectId: projects[0].id,
       };
     case "FETCH_TASKS_SUCCESS":
       const { tasks, projectId } = action.payload;
@@ -48,5 +47,7 @@ export const reducer = (state, action) => {
         comments,
         selectedTaskId: taskId,
       };
+    default:
+      return;
   }
 };

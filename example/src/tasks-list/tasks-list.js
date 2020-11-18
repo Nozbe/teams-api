@@ -1,26 +1,23 @@
 import React from "react";
-import Badge from "../shared/badge";
-import AddTask from "./add-task";
+
+import Box from "../shared/box";
+import List from "../shared/list/list";
+import ListHeader from "../shared/list-header";
+import AddForm from "../shared/add-form";
 
 const TasksList = ({ tasks, selectTask, addTask, selectedTaskId }) =>
   tasks ? (
-    <div>
-      <ul>
-        {tasks.map((task) => (
-          <>
-            <Badge elementId={task.id} selectedElementId={selectedTaskId} />
-            <li
-              key={task.id}
-              onClick={() => selectTask(task.id)}
-              style={{ cursor: "pointer" }}
-            >
-              {task.name}
-            </li>
-          </>
-        ))}
-      </ul>
-      <AddTask {...{ addTask }} />
-    </div>
+    <Box>
+      <ListHeader>Tasks:</ListHeader>
+      <List
+        items={tasks}
+        handleSelect={selectTask}
+        defaultItemName="Single Actions"
+        selectable
+        selectedItemId={selectedTaskId}
+      ></List>
+      <AddForm onClick={addTask} />
+    </Box>
   ) : null;
 
 export default TasksList;

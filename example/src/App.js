@@ -10,6 +10,8 @@ import CommentsList from "./comments-list/comments-list";
 
 import "./App.css";
 
+import Box from "./shared/box";
+
 const App = () => {
   const [client, createClient] = useNozbeClient();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -31,15 +33,6 @@ const App = () => {
         type: "FETCH_PROJECTS_SUCCESS",
         payload: projectsResponse,
       });
-
-      const tasksResponse = await client.getTasks(projectsResponse[0].id);
-
-      dispatch({
-        type: "FETCH_TASKS_SUCCESS",
-        payload: tasksResponse,
-      });
-
-      await getComments(tasksResponse[0].id);
     } catch (err) {
       dispatch({
         type: "FETCH_USER_DATA_FAILURE",
@@ -121,10 +114,14 @@ const App = () => {
 
       {user && (
         <>
-          <span>Hello {user.name}. Welcome to mono-zbe.</span>
+          <Box>Hello {user.name}. Welcome to Mononozbe.</Box>
 
           <div
-            style={{ display: "grid", gridTemplateColumns: "300px 600px auto" }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "300px 600px auto",
+              height: `calc(100vh - 20px)`,
+            }}
           >
             <ProjectList {...{ projects, selectedProjectId, getTasks }} />
             <TasksList
