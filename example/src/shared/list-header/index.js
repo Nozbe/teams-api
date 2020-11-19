@@ -1,10 +1,10 @@
 import zacs from "@nozbe/zacs";
 import style from "./style.module.css";
 
-const ListHeader = zacs.text(style.title);
+const ListHeaderRaw = zacs.text(style.title);
 
-const ListHeaderComponent = ({ children }) => {
-  return <ListHeader>{children}</ListHeader>;
+const ListHeader = ({ children }) => {
+  return <ListHeaderRaw>{children}</ListHeaderRaw>;
 };
 
-export default ListHeaderComponent;
+export default ListHeader;

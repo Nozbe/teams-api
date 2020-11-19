@@ -1,8 +1,8 @@
 import React from "react";
 import zacs from "@nozbe/zacs";
 
-import style from "./list.module.css";
-import ListItem from "../list-item/list-item";
+import style from "./style.module.css";
+import ListItem from "../list-item";
 
 const Box = zacs.view(style.listContainer);
 

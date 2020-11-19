@@ -1,16 +1,16 @@
 import { useEffect, useReducer } from "react";
+import zacs from "@nozbe/zacs";
 
 import { reducer, initialState } from "./store";
 import useNozbeClient from "./hooks/use-nozbe-client";
 
-import Auth from "./auth/auth-component";
-import ProjectList from "./project-list/project-list";
-import TasksList from "./tasks-list/tasks-list";
-import CommentsList from "./comments-list/comments-list";
-
-import "./App.css";
-
+import Login from "./login-window";
+import ProjectList from "./project-list";
+import TasksList from "./tasks-list";
+import CommentsList from "./comments-list";
 import Box from "./shared/box";
+
+import style from "./App.module.css";
 
 const App = () => {
   const [client, createClient] = useNozbeClient();
@@ -105,21 +105,18 @@ const App = () => {
     comments,
   } = state;
 
+  const AppContainer = zacs.view(style.AppContainer);
+  const PanesContainer = zacs.view(style.panesContainer);
+
   return (
-    <div className="App">
-      {!user && <Auth {...{ createClient }} />}
+    <AppContainer>
+      {!user && <Login {...{ createClient }} />}
 
       {user && (
         <>
           <Box>Hello {user.name}. Welcome to Mononozbe.</Box>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "300px 600px auto",
-              height: `calc(100vh - 20px)`,
-            }}
-          >
+          <PanesContainer>
             <ProjectList {...{ projects, selectedProjectId, getTasks }} />
             <TasksList
               {...{
@@ -131,10 +128,10 @@ const App = () => {
               }}
             />
             <CommentsList {...{ comments, selectedTaskId, addComment }} />
-          </div>
+          </PanesContainer>
         </>
       )}
-    </div>
+    </AppContainer>
   );
 };
 

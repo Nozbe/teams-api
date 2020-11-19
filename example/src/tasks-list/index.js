@@ -1,7 +1,7 @@
 import React from "react";
 
 import Box from "../shared/box";
-import List from "../shared/list/list";
+import List from "../shared/list";
 import ListHeader from "../shared/list-header";
 import InputWithButton from "../shared/input-with-button";
 

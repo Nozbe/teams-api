@@ -8,7 +8,7 @@ import style from "./style.module.css";
 
 const Container = zacs.view(style.container);
 
-const AuthComponent = ({ createClient }) => {
+const LoginWindow = ({ createClient }) => {
   return (
     <Container>
       <Box>
@@ -28,4 +28,4 @@ const AuthComponent = ({ createClient }) => {
   );
 };
 
-export default AuthComponent;
+export default LoginWindow;

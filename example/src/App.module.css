@@ -1,0 +1,11 @@
+.AppContainer {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.panesContainer {
+  display: grid;
+  grid-template-columns: 300px 600px auto;
+  height: calc(100vh - 20px);
+}
