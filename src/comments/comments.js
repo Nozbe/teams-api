@@ -1,5 +1,17 @@
 const randomId = require("../utils/randomId");
 
+const getComments = async (apiClient, { taskId }) => {
+  try {
+    const response = await apiClient.get("sync", {
+      collection_name: "comments",
+    });
+
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const addComment = async (apiClient, { taskId, commentText }) => {
   try {
     await apiClient.post("sync", {
@@ -21,5 +33,6 @@ const addComment = async (apiClient, { taskId, commentText }) => {
 };
 
 exports = module.exports = {
+  getComments,
   addComment,
 };

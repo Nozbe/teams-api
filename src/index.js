@@ -2,7 +2,8 @@ const instantiateAxios = require("./utils/axios-adapter");
 
 const Tasks = require("./task/task");
 const Projects = require("./projects/projects");
-const comments = require("./comments/comments");
+const Comments = require("./comments/comments");
+const Attachments = require("./attachments/attachments");
 
 class NozbeTeamsClient {
   constructor(apiKey) {
@@ -56,9 +57,19 @@ class NozbeTeamsClient {
 
   async getAllProjects() {
     try {
-      const allProjects = await Projects.getAllProjects(this._apiClient);
+      const projects = await Projects.getAllProjects(this._apiClient);
 
-      return allProjects;
+      return projects;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async getComments(taskId) {
+    try {
+      const comments = await Comments.getComments(this._apiClient, { taskId });
+
+      return comments;
     } catch (err) {
       console.error(err);
     }
@@ -70,7 +81,23 @@ class NozbeTeamsClient {
         // throw Error (?)
       }
 
-      await comments.addComment(this._apiClient, { taskId, commentText });
+      await Comments.addComment(this._apiClient, {
+        taskId,
+        commentText,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async addAttachment(taskId, commentText, attachmentUrl, attachmentFileName) {
+    try {
+      await Attachments.addAttachment(this._apiClient, {
+        taskId,
+        commentText,
+        attachmentUrl,
+        attachmentFileName,
+      });
     } catch (err) {
       console.error(err);
     }
