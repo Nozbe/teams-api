@@ -1,25 +1,138 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useReducer } from "react";
+import zacs from "@nozbe/zacs";
 
-function App() {
+import { reducer, initialState } from "./store";
+import useNozbeClient from "./hooks/use-nozbe-client";
+
+import Login from "./login-window";
+import ProjectList from "./project-list";
+import TasksList from "./tasks-list";
+import CommentsList from "./comments-list";
+import Box from "./shared/box";
+
+import style from "./App.module.css";
+
+const App = () => {
+  const [client, createClient] = useNozbeClient();
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    const authorize = async () => {
+      try {
+        const response = await client.getLoggedUserData();
+
+        dispatch({
+          type: "FETCH_USER_DATA_SUCCESS",
+          payload: response.data,
+        });
+
+        const projectsResponse = await client.getAllProjects();
+
+        dispatch({
+          type: "FETCH_PROJECTS_SUCCESS",
+          payload: projectsResponse,
+        });
+      } catch (err) {
+        dispatch({
+          type: "FETCH_USER_DATA_FAILURE",
+        });
+        console.error(err);
+      }
+    };
+
+    authorize();
+  }, [client]);
+
+  const getTasks = async (projectId) => {
+    try {
+      const tasks = await client.getTasks(projectId);
+
+      dispatch({
+        type: "FETCH_TASKS_SUCCESS",
+        payload: {
+          tasks,
+          projectId,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const addTask = async (taskName) => {
+    try {
+      const { selectedProjectId } = state;
+
+      await client.addTask(taskName, selectedProjectId);
+      await getTasks(selectedProjectId);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getComments = async (taskId) => {
+    try {
+      const comments = await client.getComments(taskId);
+
+      dispatch({
+        type: "FETCH_COMMENTS_SUCCESS",
+        payload: {
+          comments,
+          taskId,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const addComment = async (commentBody) => {
+    try {
+      const { selectedTaskId } = state;
+      await client.addComment(selectedTaskId, commentBody);
+      await getComments(selectedTaskId);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const {
+    user,
+    projects,
+    selectedProjectId,
+    tasks,
+    selectedTaskId,
+    comments,
+  } = state;
+
+  const AppContainer = zacs.view(style.AppContainer);
+  const PanesContainer = zacs.view(style.panesContainer);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContainer>
+      {!user && <Login {...{ createClient }} />}
+
+      {user && (
+        <>
+          <Box>Hello {user.name}. Welcome to Mononozbe.</Box>
+
+          <PanesContainer>
+            <ProjectList {...{ projects, selectedProjectId, getTasks }} />
+            <TasksList
+              {...{
+                tasks,
+                selectedProjectId,
+                addTask,
+                selectedTaskId,
+                getComments,
+              }}
+            />
+            <CommentsList {...{ comments, selectedTaskId, addComment }} />
+          </PanesContainer>
+        </>
+      )}
+    </AppContainer>
   );
-}
+};
 
 export default App;

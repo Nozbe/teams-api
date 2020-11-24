@@ -1,0 +1,15 @@
+.listItem {
+  word-wrap: anywhere;
+}
+
+.selectable {
+  cursor: pointer;
+}
+
+.selectable:hover {
+  text-decoration: underline;
+}
+
+.selected {
+  list-style-type: "[x] ";
+}

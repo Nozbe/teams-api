@@ -2,11 +2,13 @@ const randomId = require("../utils/randomId");
 
 const getComments = async (apiClient, { taskId }) => {
   try {
-    const response = await apiClient.get("sync", {
+    const { data } = await apiClient.get("sync", {
       collection_name: "comments",
     });
 
-    return response;
+    const comments = data.changes.comments.updated;
+
+    return comments.filter((comment) => comment.task_id === taskId);
   } catch (err) {
     console.error(err);
   }

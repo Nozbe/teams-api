@@ -31,10 +31,17 @@ class NozbeTeamsClient {
     }
   }
 
-  async getTasks(projectId) {
+  async getTasks(projectId, options = {}) {
+    const { withCompleted } = options;
+
     try {
       const tasks = await Tasks.getTasks(this._apiClient, { projectId });
-      return tasks;
+
+      if (withCompleted) {
+        return tasks;
+      }
+
+      return tasks.filter((task) => !task.ended_at);
     } catch (err) {
       console.error(err);
     }
@@ -46,7 +53,7 @@ class NozbeTeamsClient {
         await this._getSingleActionsProjectId();
       }
 
-      await tasks.addTask(this._apiClient, {
+      await Tasks.addTask(this._apiClient, {
         taskName,
         projectId: projectId || this._singleActionsProjectId,
       });
@@ -55,11 +62,17 @@ class NozbeTeamsClient {
     }
   }
 
-  async getAllProjects() {
+  async getAllProjects(options = {}) {
+    const { withCompleted } = options;
+
     try {
       const projects = await Projects.getAllProjects(this._apiClient);
 
-      return projects;
+      if (withCompleted) {
+        return projects;
+      }
+
+      return projects.filter((project) => !project.ended_at);
     } catch (err) {
       console.error(err);
     }
