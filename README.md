@@ -28,7 +28,7 @@
 
 It allows you to create utilities for Nozbe Teams, list your projects, manage your tasks and comment on them. For now - It is continuosly developed to give you more possibilities.
 
-> ⚠️ Note this package is still a WIP and the API may change (even if we do what we can to avoid that)
+> ⚠️ Note this package is still a WIP and the API may change (even if we do what we can to avoid that).
 
 ## Installation
 
