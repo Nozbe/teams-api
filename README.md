@@ -5,12 +5,12 @@
 </h4>
 
 <p align="center">
-  <a href="https://github.com/Nozbe/WatermelonDB/blob/master/LICENSE">
+  <a href="https://github.com/Nozbe/teams-api/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License">
   </a>
 
-  <!-- <a href="https://travis-ci.com/Nozbe/WatermelonDB">
-    <img src="https://api.travis-ci.com/Nozbe/WatermelonDB.svg?branch=master" alt="CI Status">
+  <!-- <a href="https://travis-ci.com/Nozbe/teams-api">
+    <img src="https://api.travis-ci.com/Nozbe/teams-api.svg?branch=master" alt="CI Status">
   </a> -->
 
   <!-- <a href="https://www.npmjs.com/package/@nozbe/watermelondb">
@@ -74,12 +74,12 @@ You can find the basic API reference [here](./API.md).
 
 If there's a missing feature, a bug, or other improvement you'd like, we encourage you to contribute! Feel free to open an issue to get some guidance. <!-- and see [Contributing guide](./CONTRIBUTING.md) for details about project setup, testing, etc. -->
 
-<!-- If you're just getting started, see [good first issues](https://github.com/Nozbe/WatermelonDB/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) that are easy to contribute to. If you make a non-trivial contribution, email me, and I'll send you a nice 🍉 sticker! -->
+<!-- If you're just getting started, see [good first issues](https://github.com/Nozbe/teams-api/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) that are easy to contribute to. If you make a non-trivial contribution, email me, and I'll send you a nice 🍉 sticker! -->
 
 If you make or are considering making an app using `@nozbe/teams-api`, please let us know!
 
 ## Authors and license
 
-`@nozbe/teams-api` was created by [@Nozbe](https://github.com/Nozbe). Main author is [Krystian Kościelniak](https://github.com/kkoscielniak) and main maintainer is [Radek Pietruszewski](https://github.com/radex).
+`@nozbe/teams-api` was created by [@Nozbe](https://github.com/Nozbe). Main author is [Krystian Kościelniak](https://github.com/kkoscielniak).
 
-`@nozbe/teams-api` is available under the MIT license. <!-- See the [LICENSE file](./LICENSE) for more info. -->
+`@nozbe/teams-api` is available under the MIT license. See the [LICENSE file](./LICENSE) for more info.
