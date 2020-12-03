@@ -12,7 +12,6 @@ const TasksList = ({ tasks, getComments, addTask, selectedTaskId }) =>
       <List
         items={tasks}
         handleSelect={getComments}
-        defaultItemName="Single Actions"
         selectable
         selectedItemId={selectedTaskId}
       ></List>
