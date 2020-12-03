@@ -44,7 +44,7 @@ yarn add @nozbe/teams-api
 
 ## Usage
 
-**Quick (over-simplified) example:** adding the task to your Single Actions
+**Quick (over-simplified) example:** adding the task to your Single tasks
 
 To interact with Nozbe Teams you need to grab an API token from _Settings_ -> _Integrations_.
 
