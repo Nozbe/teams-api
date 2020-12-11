@@ -65,11 +65,11 @@ class NozbeTeamsClient {
     }
   }
 
-  async getAllProjects(options = {}) {
+  async getProjects(options = {}) {
     const { withCompleted } = options;
 
     try {
-      const projects = await Projects.getAllProjects(this._apiClient);
+      const projects = await Projects.getProjects(this._apiClient);
 
       if (withCompleted) {
         return projects;

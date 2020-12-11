@@ -57,7 +57,7 @@ Adds a task to the particular project
 - `projectId` (string)(optional) - ID of the project to which the task is added
   - If not given, task will be added to Single Actions
 
-### `client.getAllProjects(options)`
+### `client.getProjects(options)`
 
 Fetches all projects created by the user
 
