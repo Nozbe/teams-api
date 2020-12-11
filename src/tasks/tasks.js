@@ -1,6 +1,6 @@
 const randomId = require("../utils/randomId");
 
-const getTasks = async (apiClient, { projectId }) => {
+const getTasks = async (apiClient, { projectId, withCompleted }) => {
   try {
     const {
       data: {
@@ -9,7 +9,10 @@ const getTasks = async (apiClient, { projectId }) => {
         },
       },
     } = await apiClient.get("sync", {
-      collection_name: "tasks",
+      params: {
+        collection_name: "tasks",
+        selectiveSync2: !withCompleted,
+      },
     });
 
     if (projectId) {
@@ -30,7 +33,6 @@ const addTask = async (apiClient, { taskName, projectId }) => {
           {
             id: randomId(),
             name: taskName,
-            is_all_day: true,
             project_id: projectId,
             review_reason: "newly_added",
             responsible_id: "author",
