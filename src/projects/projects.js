@@ -1,7 +1,10 @@
-const getAllProjects = async (apiClient) => {
+const getProjects = async (apiClient) => {
   try {
     const { data } = await apiClient.get("sync", {
-      collection_name: "projects",
+      params: {
+        collection_name: "projects",
+        selectiveSync2: "true",
+      },
     });
 
     return data.changes.projects.updated;
@@ -11,12 +14,12 @@ const getAllProjects = async (apiClient) => {
 };
 
 const getSingleActionsProjectId = async (apiClient) => {
-  const allProjects = await getAllProjects(apiClient);
+  const allProjects = await getProjects(apiClient);
 
   return allProjects.find((project) => project.is_single_actions).id;
 };
 
 exports = module.exports = {
-  getAllProjects,
+  getProjects,
   getSingleActionsProjectId,
 };

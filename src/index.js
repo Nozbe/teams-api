@@ -1,6 +1,6 @@
 const instantiateAxios = require("./utils/axios-adapter");
 
-const Tasks = require("./task/task");
+const Tasks = require("./tasks/tasks");
 const Projects = require("./projects/projects");
 const Comments = require("./comments/comments");
 const Attachments = require("./attachments/attachments");
@@ -35,7 +35,10 @@ class NozbeTeamsClient {
     const { withCompleted } = options;
 
     try {
-      const tasks = await Tasks.getTasks(this._apiClient, { projectId });
+      const tasks = await Tasks.getTasks(this._apiClient, {
+        projectId,
+        withCompleted,
+      });
 
       if (withCompleted) {
         return tasks;
@@ -62,11 +65,11 @@ class NozbeTeamsClient {
     }
   }
 
-  async getAllProjects(options = {}) {
+  async getProjects(options = {}) {
     const { withCompleted } = options;
 
     try {
-      const projects = await Projects.getAllProjects(this._apiClient);
+      const projects = await Projects.getProjects(this._apiClient);
 
       if (withCompleted) {
         return projects;

@@ -26,7 +26,7 @@ const App = () => {
           payload: response.data,
         });
 
-        const projectsResponse = await client.getAllProjects();
+        const projectsResponse = await client.getProjects();
 
         dispatch({
           type: "FETCH_PROJECTS_SUCCESS",

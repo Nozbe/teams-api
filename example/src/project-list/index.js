@@ -10,7 +10,7 @@ const ProjectList = ({ projects, selectedProjectId, getTasks }) => (
     <List
       items={projects}
       handleSelect={getTasks}
-      defaultItemName="Single Actions"
+      defaultItemName="Single Tasks"
       selectable
       selectedItemId={selectedProjectId}
     ></List>

@@ -55,9 +55,9 @@ Adds a task to the particular project
 
 - `taskName` (string) - Task name
 - `projectId` (string)(optional) - ID of the project to which the task is added
-  - If not given, task will be added to Single Actions
+  - If not given, task will be added to Single Tasks
 
-### `client.getAllProjects(options)`
+### `client.getProjects(options)`
 
 Fetches all projects created by the user
 
@@ -75,7 +75,7 @@ Fetches all projects created by the user
 - `team_id` - Team ID
 - `created_at` - Timestamp for when the project was created
 - `is_favorite` - Indicates if the project is set as favorite by the user
-- `is_single_actions` - Indicates if the project is Single Actions. There's only one Single Actions project per account.
+- `is_single_actions` - Indicates if the project is Single Tasks. There's only one Single Tasks project per account.
 
 ### `client.getComments(taskId)`
 
