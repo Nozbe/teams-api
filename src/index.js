@@ -120,10 +120,24 @@ class NozbeTeamsClient {
     }
   }
 
-  async createViaPojo(collectionName, pojo) {
+  async createByPojo(collectionName, pojo) {
     return await EscapeHatches.create(this._apiClient, {
       collectionName,
       pojo,
+    });
+  }
+
+  async updateByPojo(collectionName, pojo) {
+    return await EscapeHatches.update(this._apiClient, {
+      collectionName,
+      pojo,
+    });
+  }
+
+  async deleteById(collectionName, id) {
+    return await EscapeHatches.deleteById(this._apiClient, {
+      collectionName,
+      id,
     });
   }
 }
