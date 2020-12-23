@@ -4,6 +4,7 @@ const Tasks = require("./tasks/tasks");
 const Projects = require("./projects/projects");
 const Comments = require("./comments/comments");
 const Attachments = require("./attachments/attachments");
+const EscapeHatches = require("./hatches/hatches");
 
 class NozbeTeamsClient {
   constructor(apiKey) {
@@ -117,6 +118,13 @@ class NozbeTeamsClient {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async createViaPojo(collectionName, pojo) {
+    return await EscapeHatches.create(this._apiClient, {
+      collectionName,
+      pojo,
+    });
   }
 }
 
