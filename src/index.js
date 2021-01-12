@@ -118,6 +118,15 @@ class NozbeTeamsClient {
       console.error(err);
     }
   }
+
+  async addAttachmentByFormData(taskId, commentText, formData, fileName) {
+    return await Attachments.addAttachmentByFormData(this._apiClient, {
+      taskId,
+      commentText,
+      formData,
+      fileName,
+    });
+  }
 }
 
 exports = module.exports = NozbeTeamsClient;
