@@ -120,14 +120,14 @@ Adds comment with the attachment from the URL to a particular task.
 
 We don't document every single operation possible, but you still can pass an undocumented extra object without reverting to `fetch()` once this basic API wrapper is not sufficient. For advanced applies.
 
-### `client.createRaw(collectionName, pojo)`
+### `client.createRaw(collectionName, rawObject)`
 
 Creates an arbitrary record in the particular collection.
 
 Arguments
 
 - `collectionName` - Collection to which the record should be added (_tasks_, _projects_ etc.)
-- `pojo` - Plain Old JavaScript Object denoting the record to add
+- `rawObject` - POJO denoting the record to add
 
 Example:
 
@@ -139,14 +139,14 @@ await client.createRaw("tasks", {
 });
 ```
 
-### `client.updateRaw(collectionName, pojo)`
+### `client.updateRaw(collectionName, rawObject)`
 
 Updates the arbitrary record in the particular collection.
 
 Arguments
 
 - `collectionName` - Collection to which the record should be updated (_tasks_, _projects_ etc.)
-- `pojo` - Plain Old JavaScript Object denoting the record to update. Should have the `id` key.
+- `rawObject` - POJO denoting the record to update. Should have the `id` key.
 
 Example:
 

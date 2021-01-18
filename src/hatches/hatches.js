@@ -1,14 +1,14 @@
-const createRaw = async (apiClient, { collectionName, pojo }) =>
+const createRaw = async (apiClient, { collectionName, rawObject }) =>
   await apiClient.post("sync", {
     [collectionName]: {
-      created: [pojo],
+      created: [rawObject],
     },
   });
 
-const updateRaw = async (apiClient, { collectionName, pojo }) =>
+const updateRaw = async (apiClient, { collectionName, rawObject }) =>
   await apiClient.post("sync", {
     [collectionName]: {
-      updated: [pojo],
+      updated: [rawObject],
     },
   });
 

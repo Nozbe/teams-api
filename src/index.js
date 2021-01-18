@@ -98,17 +98,17 @@ class NozbeTeamsClient {
     });
   }
 
-  async createRaw(collectionName, pojo) {
+  async createRaw(collectionName, rawObject) {
     return await EscapeHatches.createRaw(this._apiClient, {
       collectionName,
-      pojo,
+      rawObject,
     });
   }
 
-  async updateRaw(collectionName, pojo) {
+  async updateRaw(collectionName, rawObject) {
     return await EscapeHatches.updateRaw(this._apiClient, {
       collectionName,
-      pojo,
+      rawObject,
     });
   }
 
