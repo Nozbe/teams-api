@@ -21,7 +21,7 @@ const getTasks = async (apiClient, { projectId, withCompleted }) => {
   return updated;
 };
 
-const addTask = async (apiClient, { taskName, projectId }) =>
+const addTask = async (apiClient, { taskName, projectId, extra }) =>
   await apiClient.post("sync", {
     tasks: {
       created: [
@@ -31,10 +31,9 @@ const addTask = async (apiClient, { taskName, projectId }) =>
           project_id: projectId,
           review_reason: "newly_added",
           responsible_id: "author",
+          ...extra,
         },
       ],
-      updated: [],
-      deleted: [],
     },
   });
 

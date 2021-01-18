@@ -12,7 +12,7 @@ const getComments = async (apiClient, { taskId }) => {
   return comments.filter((comment) => comment.task_id === taskId);
 };
 
-const addComment = async (apiClient, { taskId, commentText }) =>
+const addComment = async (apiClient, { taskId, commentText, extra }) =>
   await apiClient.post("sync", {
     comments: {
       created: [
@@ -20,10 +20,9 @@ const addComment = async (apiClient, { taskId, commentText }) =>
           id: randomId(),
           task_id: taskId,
           body: commentText,
+          ...extra,
         },
       ],
-      updated: [],
-      deleted: [],
     },
   });
 

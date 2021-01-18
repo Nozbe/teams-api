@@ -43,7 +43,7 @@ class NozbeTeamsClient {
     return tasks.filter((task) => !task.ended_at);
   }
 
-  async addTask(taskName, projectId) {
+  async addTask(taskName, projectId, extra) {
     if (!taskName) {
       throw new Error("taskName is missing");
     }
@@ -53,6 +53,7 @@ class NozbeTeamsClient {
     await Tasks.addTask(this._apiClient, {
       taskName,
       projectId: projectId || singleActionsProjectId,
+      extra,
     });
   }
 
@@ -72,7 +73,7 @@ class NozbeTeamsClient {
     return await Comments.getComments(this._apiClient, { taskId });
   }
 
-  async addComment(taskId, commentText) {
+  async addComment(taskId, commentText, extra) {
     if (!taskId) {
       throw new Error("taskId is missing");
     }
@@ -84,6 +85,7 @@ class NozbeTeamsClient {
     await Comments.addComment(this._apiClient, {
       taskId,
       commentText,
+      extra,
     });
   }
 
