@@ -105,7 +105,7 @@ Adds comment to a particular task. Nozbe Teams renders comments in Markdown.
 - `taskId` - ID of the task to which the comment should be added
 - `commentText` - Text to add as a comment
 
-### `client.addAttachment(taskId, commentText, attachmentUrl, attachmentFileName)`
+### `client.addAttachmentByUrl(taskId, commentText, attachmentUrl, attachmentFileName)`
 
 Adds comment with the attachment from the URL to a particular task.
 

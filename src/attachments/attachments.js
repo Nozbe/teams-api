@@ -2,14 +2,15 @@ const request = require("request-promise-native");
 
 const randomId = require("../utils/randomId");
 
-const addAttachment = async (
+const addAttachmentByUrl = async (
   apiClient,
-  { taskId, commentText, attachmentUrl, attachmentFileName }
+  { taskId, commentText, attachmentUrl, attachmentFileName, extra }
 ) => {
   const comment = {
     id: randomId(),
     task_id: taskId,
     body: commentText,
+    ...extra,
   };
 
   const attachment = {
@@ -66,5 +67,5 @@ const addAttachment = async (
 };
 
 exports = module.exports = {
-  addAttachment,
+  addAttachmentByUrl,
 };

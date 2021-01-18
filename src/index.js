@@ -89,12 +89,19 @@ class NozbeTeamsClient {
     });
   }
 
-  async addAttachment(taskId, commentText, attachmentUrl, attachmentFileName) {
-    return await Attachments.addAttachment(this._apiClient, {
+  async addAttachmentByUrl(
+    taskId,
+    commentText,
+    attachmentUrl,
+    attachmentFileName,
+    extra
+  ) {
+    return await Attachments.addAttachmentByUrl(this._apiClient, {
       taskId,
       commentText,
       attachmentUrl,
       attachmentFileName,
+      extra,
     });
   }
 
