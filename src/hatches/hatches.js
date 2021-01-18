@@ -1,4 +1,4 @@
-const create = async (apiClient, { collectionName, pojo }) =>
+const createRaw = async (apiClient, { collectionName, pojo }) =>
   await apiClient.post("sync", {
     [collectionName]: {
       created: [pojo],
@@ -7,7 +7,7 @@ const create = async (apiClient, { collectionName, pojo }) =>
     },
   });
 
-const update = async (apiClient, { collectionName, pojo }) =>
+const updateRaw = async (apiClient, { collectionName, pojo }) =>
   await apiClient.post("sync", {
     [collectionName]: {
       created: [],
@@ -16,7 +16,7 @@ const update = async (apiClient, { collectionName, pojo }) =>
     },
   });
 
-const deleteById = async (apiClient, { collectionName, id }) =>
+const deleteRaw = async (apiClient, { collectionName, id }) =>
   await apiClient.post("sync", {
     [collectionName]: {
       created: [],
@@ -26,9 +26,7 @@ const deleteById = async (apiClient, { collectionName, id }) =>
   });
 
 exports = module.exports = {
-  create,
-  update,
-  deleteById,
+  createRaw,
+  updateRaw,
+  deleteRaw,
 };
-
-// get by collection name

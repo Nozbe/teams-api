@@ -100,22 +100,22 @@ class NozbeTeamsClient {
     }
   }
 
-  async createByPojo(collectionName, pojo) {
-    return await EscapeHatches.create(this._apiClient, {
+  async createRaw(collectionName, pojo) {
+    return await EscapeHatches.createRaw(this._apiClient, {
       collectionName,
       pojo,
     });
   }
 
-  async updateByPojo(collectionName, pojo) {
-    return await EscapeHatches.update(this._apiClient, {
+  async updateRaw(collectionName, pojo) {
+    return await EscapeHatches.updateRaw(this._apiClient, {
       collectionName,
       pojo,
     });
   }
 
-  async deleteById(collectionName, id) {
-    return await EscapeHatches.deleteById(this._apiClient, {
+  async deleteRaw(collectionName, id) {
+    return await EscapeHatches.deleteRaw(this._apiClient, {
       collectionName,
       id,
     });

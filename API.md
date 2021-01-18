@@ -120,7 +120,7 @@ Adds comment with the attachment from the URL to a particular task.
 
 We don't document every single operation possible, but you still can pass an undocumented extra object without reverting to `fetch()` once this basic API wrapper is not sufficient. For advanced applies.
 
-### `client.createByPojo(collectionName, pojo)`
+### `client.createRaw(collectionName, pojo)`
 
 Creates an arbitrary record in the particular collection.
 
@@ -132,14 +132,14 @@ Arguments
 Example:
 
 ```js
-await client.createByPojo("tasks", {
+await client.createRaw("tasks", {
   id: "randomTaskId123",
   name: "Create a new Task recrod", // this typo is here on purpose
   project_id: "theProjectId",
 });
 ```
 
-### `client.updateByPojo(collectionName, pojo)`
+### `client.updateRaw(collectionName, pojo)`
 
 Updates the arbitrary record in the particular collection.
 
@@ -151,13 +151,13 @@ Arguments
 Example:
 
 ```js
-await client.updateByPojo("tasks", {
+await client.updateRaw("tasks", {
   id: "randomTaskId123",
   name: "Create a new Task record", // the typo is fixed now
 });
 ```
 
-### `client.deleteById(collectionName, id)`
+### `client.deleteRaw(collectionName, id)`
 
 Removes the arbitrary record in the particular collection.
 
@@ -167,5 +167,5 @@ Removes the arbitrary record in the particular collection.
 Example:
 
 ```js
-await client.deleteById("tasks", "randomTaskId123");
+await client.deleteRaw("tasks", "randomTaskId123");
 ```
