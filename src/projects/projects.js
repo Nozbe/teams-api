@@ -1,16 +1,12 @@
 const getProjects = async (apiClient) => {
-  try {
-    const { data } = await apiClient.get("sync", {
-      params: {
-        collection_name: "projects",
-        selectiveSync2: "true",
-      },
-    });
+  const { data } = await apiClient.get("sync", {
+    params: {
+      collection_name: "projects",
+      selectiveSync2: "true",
+    },
+  });
 
-    return data.changes.projects.updated;
-  } catch (err) {
-    console.error(err);
-  }
+  return data.changes.projects.updated;
 };
 
 const getSingleActionsProjectId = async (apiClient) => {
