@@ -33,18 +33,12 @@ const addAttachment = async (
     await apiClient.post("sync", {
       comments: {
         created: [{ ...comment }],
-        updated: [],
-        deleted: [],
       },
       attachments: {
         created: [{ ...attachment }],
-        updated: [],
-        deleted: [],
       },
       attachment_versions: {
         created: [{ ...attachmentVersion }],
-        updated: [],
-        deleted: [],
       },
     });
 
