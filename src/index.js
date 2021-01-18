@@ -90,16 +90,12 @@ class NozbeTeamsClient {
   }
 
   async addAttachment(taskId, commentText, attachmentUrl, attachmentFileName) {
-    try {
-      await Attachments.addAttachment(this._apiClient, {
-        taskId,
-        commentText,
-        attachmentUrl,
-        attachmentFileName,
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    return await Attachments.addAttachment(this._apiClient, {
+      taskId,
+      commentText,
+      attachmentUrl,
+      attachmentFileName,
+    });
   }
 
   async createRaw(collectionName, pojo) {
