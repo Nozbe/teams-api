@@ -14,96 +14,76 @@ class NozbeTeamsClient {
   }
 
   async _getSingleActionsProjectId() {
-    this._singleActionsProjectId = await Projects.getSingleActionsProjectId(
-      this._apiClient
-    );
+    if (!this._singleActionsProjectId) {
+      this._singleActionsProjectId = await Projects.getSingleActionsProjectId(
+        this._apiClient
+      );
+    }
 
     return this._singleActionsProjectId;
   }
 
   async getLoggedUserData() {
-    try {
-      const loggedUserData = await this._apiClient.get("me");
-
-      return loggedUserData;
-    } catch (err) {
-      console.error(err);
-    }
+    return await this._apiClient.get("me");
   }
 
   async getTasks(projectId, options = {}) {
     const { withCompleted } = options;
 
-    try {
-      const tasks = await Tasks.getTasks(this._apiClient, {
-        projectId,
-        withCompleted,
-      });
+    const tasks = await Tasks.getTasks(this._apiClient, {
+      projectId,
+      withCompleted,
+    });
 
-      if (withCompleted) {
-        return tasks;
-      }
-
-      return tasks.filter((task) => !task.ended_at);
-    } catch (err) {
-      console.error(err);
+    if (withCompleted) {
+      return tasks;
     }
+
+    return tasks.filter((task) => !task.ended_at);
   }
 
   async addTask(taskName, projectId) {
-    try {
-      if (!projectId && !this._singleActionsProjectId) {
-        await this._getSingleActionsProjectId();
-      }
-
-      await Tasks.addTask(this._apiClient, {
-        taskName,
-        projectId: projectId || this._singleActionsProjectId,
-      });
-    } catch (err) {
-      console.error(err);
+    if (!taskName) {
+      throw new Error("taskName is missing");
     }
+
+    const singleActionsProjectId = await this._getSingleActionsProjectId();
+
+    await Tasks.addTask(this._apiClient, {
+      taskName,
+      projectId: projectId || singleActionsProjectId,
+    });
   }
 
   async getProjects(options = {}) {
     const { withCompleted } = options;
 
-    try {
-      const projects = await Projects.getProjects(this._apiClient);
+    const projects = await Projects.getProjects(this._apiClient);
 
-      if (withCompleted) {
-        return projects;
-      }
-
-      return projects.filter((project) => !project.ended_at);
-    } catch (err) {
-      console.error(err);
+    if (withCompleted) {
+      return projects;
     }
+
+    return projects.filter((project) => !project.ended_at);
   }
 
   async getComments(taskId) {
-    try {
-      const comments = await Comments.getComments(this._apiClient, { taskId });
-
-      return comments;
-    } catch (err) {
-      console.error(err);
-    }
+    return await Comments.getComments(this._apiClient, { taskId });
   }
 
   async addComment(taskId, commentText) {
-    try {
-      if (!taskId || !commentText) {
-        // throw Error (?)
-      }
-
-      await Comments.addComment(this._apiClient, {
-        taskId,
-        commentText,
-      });
-    } catch (err) {
-      console.error(err);
+    if (!taskId) {
+      throw new Error("taskId is missing");
     }
+
+    if (!commentText) {
+      throw new Error("commentText is missing");
+    }
+
+    await Comments.addComment(this._apiClient, {
+      taskId,
+      commentText,
+    });
   }
 
   async addAttachmentByFilesArray(taskId, commentText, files) {
