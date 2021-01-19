@@ -6,11 +6,11 @@ import List from "../shared/list";
 import InputWithButton from "../shared/input-with-button";
 import { useState } from "react/cjs/react.development";
 
-const CommentsList = ({ comments, addComment, addAttachmentByFormData }) => {
+const CommentsList = ({ comments, addComment, addAttachmentsByFilesArray }) => {
   const [files, setFiles] = useState([]);
 
   const addAttachment = () => {
-    addAttachmentByFormData("comment body", files, "attachment name");
+    addAttachmentsByFilesArray("comment body", files, "attachment name");
   };
 
   const handleAddFile = (event) => {

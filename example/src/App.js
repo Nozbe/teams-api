@@ -96,11 +96,15 @@ const App = () => {
     }
   };
 
-  const addAttachmentByFormData = async (commentBody, formData, fileName) => {
+  const addAttachmentsByFilesArray = async (
+    commentBody,
+    formData,
+    fileName
+  ) => {
     try {
       const { selectedTaskId } = state;
 
-      await client.addAttachmentByFormData(
+      await client.addAttachmentByFilesArray(
         selectedTaskId,
         commentBody,
         formData,
@@ -147,7 +151,7 @@ const App = () => {
                 comments,
                 selectedTaskId,
                 addComment,
-                addAttachmentByFormData,
+                addAttachmentsByFilesArray,
               }}
             />
           </PanesContainer>

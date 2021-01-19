@@ -106,27 +106,31 @@ class NozbeTeamsClient {
     }
   }
 
-  async addAttachment(taskId, commentText, attachmentUrl, attachmentFileName) {
-    try {
-      await Attachments.addAttachment(this._apiClient, {
-        taskId,
-        commentText,
-        attachmentUrl,
-        attachmentFileName,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async addAttachmentByFormData(taskId, commentText, formData, fileName) {
-    return await Attachments.addAttachmentByFormData(this._apiClient, {
+  async addAttachmentByFilesArray(taskId, commentText, files) {
+    return await Attachments.addAttachmentByFilesArray(this._apiClient, {
       taskId,
       commentText,
-      formData,
-      fileName,
+      files,
     });
   }
+
+  // async addAttachmentFromUrl(
+  //   taskId,
+  //   commentText,
+  //   attachmentUrl,
+  //   attachmentFileName
+  // ) {
+  //   try {
+  //     await Attachments.addAttachmentFromUrl(this._apiClient, {
+  //       taskId,
+  //       commentText,
+  //       attachmentUrl,
+  //       attachmentFileName,
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 }
 
 exports = module.exports = NozbeTeamsClient;
