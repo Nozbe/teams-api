@@ -102,7 +102,7 @@ Adds comment to a particular task. Nozbe Teams renders comments in Markdown.
 
 #### Arguments
 
-- `taskId` ID of the task to which the comment should be added
+- `taskId` - ID of the task to which the comment should be added
 - `commentText` - Text to add as a comment
 
 ### `client.addAttachment(taskId, commentText, attachmentUrl, attachmentFileName)`
@@ -111,7 +111,61 @@ Adds comment with the attachment from the URL to a particular task.
 
 #### Arguments
 
-- `taskId` ID of the task to which the comment should be added
+- `taskId` - ID of the task to which the comment should be added
 - `commentText` - Text to add as a comment
 - `attachmentUrl` - URL of the attachment file
 - `attachmentFileName` - Name under which the attachment should be saved
+
+## "Escape hatch" methods
+
+We don't document every single operation possible, but you still can pass an undocumented extra object without reverting to `fetch()` once this basic API wrapper is not sufficient. For advanced applies.
+
+### `client.createRaw(collectionName, pojo)`
+
+Creates an arbitrary record in the particular collection.
+
+Arguments
+
+- `collectionName` - Collection to which the record should be added (_tasks_, _projects_ etc.)
+- `pojo` - Plain Old JavaScript Object denoting the record to add
+
+Example:
+
+```js
+await client.createRaw("tasks", {
+  id: "randomTaskId123",
+  name: "Create a new Task recrod", // this typo is here on purpose
+  project_id: "theProjectId",
+});
+```
+
+### `client.updateRaw(collectionName, pojo)`
+
+Updates the arbitrary record in the particular collection.
+
+Arguments
+
+- `collectionName` - Collection to which the record should be updated (_tasks_, _projects_ etc.)
+- `pojo` - Plain Old JavaScript Object denoting the record to update. Should have the `id` key.
+
+Example:
+
+```js
+await client.updateRaw("tasks", {
+  id: "randomTaskId123",
+  name: "Create a new Task record", // the typo is fixed now
+});
+```
+
+### `client.deleteRaw(collectionName, id)`
+
+Removes the arbitrary record in the particular collection.
+
+- `collectionName` - Collection in which the record should be removed (_tasks_, _projects_ etc.)
+- `id` - Record ID
+
+Example:
+
+```js
+await client.deleteRaw("tasks", "randomTaskId123");
+```

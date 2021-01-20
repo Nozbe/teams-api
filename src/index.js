@@ -4,7 +4,7 @@ const Tasks = require("./tasks/tasks");
 const Projects = require("./projects/projects");
 const Comments = require("./comments/comments");
 const Attachments = require("./attachments/attachments");
-const { SingleEntryPlugin } = require("webpack");
+const EscapeHatches = require("./hatches/hatches");
 
 class NozbeTeamsClient {
   constructor(apiKey) {
@@ -98,6 +98,27 @@ class NozbeTeamsClient {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async createRaw(collectionName, pojo) {
+    return await EscapeHatches.createRaw(this._apiClient, {
+      collectionName,
+      pojo,
+    });
+  }
+
+  async updateRaw(collectionName, pojo) {
+    return await EscapeHatches.updateRaw(this._apiClient, {
+      collectionName,
+      pojo,
+    });
+  }
+
+  async deleteRaw(collectionName, id) {
+    return await EscapeHatches.deleteRaw(this._apiClient, {
+      collectionName,
+      id,
+    });
   }
 }
 
