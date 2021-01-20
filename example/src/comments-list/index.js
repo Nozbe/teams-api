@@ -5,39 +5,30 @@ import ListHeader from "../shared/list-header";
 import List from "../shared/list";
 import InputWithButton from "../shared/input-with-button";
 import { useState } from "react/cjs/react.development";
+import AddAttachment from "./add-attachment";
+import Button from "../shared/button/button";
 
 const CommentsList = ({ comments, addComment, addAttachmentsByFilesArray }) => {
-  const [files, setFiles] = useState([]);
-
-  const addAttachment = () => {
-    addAttachmentsByFilesArray("comment body", files, "attachment name");
-  };
-
-  const handleAddFile = (event) => {
-    const { files: formFiles } = event.target;
-
-    console.log(formFiles[0]);
-
-    formFiles[0].text().then((t) => console.log(t.length));
-
-    if (formFiles) {
-      setFiles([...formFiles]);
-    }
-  };
+  const [attachmentsFormVisible, setAttachmentsFormVisible] = useState(false);
 
   return comments ? (
     <Box>
       <ListHeader>Comments:</ListHeader>
       <List items={comments} itemContentKey="body" />
-      <InputWithButton onClick={addComment} btnCaption="Add comment" />
-      <>
-        {/* <form> */}
-        <input type="file" multiple onChange={handleAddFile} />
-        <button type="submit" onClick={addAttachment}>
-          Add attachment
-        </button>
-        {/* </form> */}
-      </>
+      {!attachmentsFormVisible && (
+        <>
+          <InputWithButton onClick={addComment} btnCaption="Add comment" />
+          <Button
+            type="submit"
+            onClick={() => setAttachmentsFormVisible(!attachmentsFormVisible)}
+          >
+            Show attachments form
+          </Button>
+        </>
+      )}
+      {attachmentsFormVisible && (
+        <AddAttachment {...{ addAttachmentsByFilesArray }} />
+      )}
     </Box>
   ) : null;
 };

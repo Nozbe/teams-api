@@ -96,19 +96,14 @@ const App = () => {
     }
   };
 
-  const addAttachmentsByFilesArray = async (
-    commentBody,
-    formData,
-    fileName
-  ) => {
+  const addAttachmentsByFilesArray = async (commentBody, formData) => {
     try {
       const { selectedTaskId } = state;
 
       await client.addAttachmentByFilesArray(
         selectedTaskId,
         commentBody,
-        formData,
-        fileName
+        formData
       );
     } catch (err) {
       console.error(err);
