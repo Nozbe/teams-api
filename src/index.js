@@ -43,7 +43,7 @@ class NozbeTeamsClient {
     return tasks.filter((task) => !task.ended_at);
   }
 
-  async addTask(taskName, projectId) {
+  async addTask(taskName, projectId, extra) {
     if (!taskName) {
       throw new Error("taskName is missing");
     }
@@ -53,6 +53,7 @@ class NozbeTeamsClient {
     await Tasks.addTask(this._apiClient, {
       taskName,
       projectId: projectId || singleActionsProjectId,
+      extra,
     });
   }
 
@@ -72,7 +73,7 @@ class NozbeTeamsClient {
     return await Comments.getComments(this._apiClient, { taskId });
   }
 
-  async addComment(taskId, commentText) {
+  async addComment(taskId, commentText, extra) {
     if (!taskId) {
       throw new Error("taskId is missing");
     }
@@ -84,33 +85,37 @@ class NozbeTeamsClient {
     await Comments.addComment(this._apiClient, {
       taskId,
       commentText,
+      extra,
     });
   }
 
-  async addAttachment(taskId, commentText, attachmentUrl, attachmentFileName) {
-    try {
-      await Attachments.addAttachment(this._apiClient, {
-        taskId,
-        commentText,
-        attachmentUrl,
-        attachmentFileName,
-      });
-    } catch (err) {
-      console.error(err);
-    }
+  async addAttachmentByUrl(
+    taskId,
+    commentText,
+    attachmentUrl,
+    attachmentFileName,
+    extra
+  ) {
+    return await Attachments.addAttachmentByUrl(this._apiClient, {
+      taskId,
+      commentText,
+      attachmentUrl,
+      attachmentFileName,
+      extra,
+    });
   }
 
-  async createRaw(collectionName, pojo) {
+  async createRaw(collectionName, rawObject) {
     return await EscapeHatches.createRaw(this._apiClient, {
       collectionName,
-      pojo,
+      rawObject,
     });
   }
 
-  async updateRaw(collectionName, pojo) {
+  async updateRaw(collectionName, rawObject) {
     return await EscapeHatches.updateRaw(this._apiClient, {
       collectionName,
-      pojo,
+      rawObject,
     });
   }
 

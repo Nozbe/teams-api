@@ -28,7 +28,7 @@ Fetches the profile info
 - `email` - profile email
 - `time_zone` - timezone set for the profile
 
-### `client.getTasks(projectId, options)`
+### `client.getTasks(projectId, [options])`
 
 Fetches the tasks for the particular project.
 
@@ -47,7 +47,7 @@ Fetches the tasks for the particular project.
 - `created_at` - Timestamp for when the task was created
 - `ended_at` - Timestamp for when the task was finished
 
-### `client.addTask(taskName, projectId)`
+### `client.addTask(taskName, [projectId, extra])`
 
 Adds a task to the particular project
 
@@ -56,8 +56,9 @@ Adds a task to the particular project
 - `taskName` (string) - Task name
 - `projectId` (string)(optional) - ID of the project to which the task is added
   - If not given, task will be added to Single Tasks
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
-### `client.getProjects(options)`
+### `client.getProjects([options])`
 
 Fetches all projects created by the user
 
@@ -96,38 +97,40 @@ Fetches all comments for the particular task
 - `is_pinned` - Indicates if the comment is pinned to the top
 - `is_deleted` - Indicates if the comment has been deleted
 
-### `client.addComment(taskId, commentText)`
+### `client.addComment(taskId, commentText, [extra])`
 
 Adds comment to a particular task. Nozbe Teams renders comments in Markdown.
 
 #### Arguments
 
-- `taskId` - ID of the task to which the comment should be added
-- `commentText` - Text to add as a comment
+- `taskId` (string) - ID of the task to which the comment should be added
+- `commentText` (string) - Text to add as a comment
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
-### `client.addAttachment(taskId, commentText, attachmentUrl, attachmentFileName)`
+### `client.addAttachmentByUrl(taskId, commentText, attachmentUrl, attachmentFileName, [extra])`
 
 Adds comment with the attachment from the URL to a particular task.
 
 #### Arguments
 
-- `taskId` - ID of the task to which the comment should be added
-- `commentText` - Text to add as a comment
-- `attachmentUrl` - URL of the attachment file
-- `attachmentFileName` - Name under which the attachment should be saved
+- `taskId` (string) - ID of the task to which the comment should be added
+- `commentText` (string) - Text to add as a comment
+- `attachmentUrl` (string) - URL of the attachment file
+- `attachmentFileName` (string) - Name under which the attachment should be saved
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
-## "Escape hatch" methods
+## The "escape hatch" methods
 
 We don't document every single operation possible, but you still can pass an undocumented extra object without reverting to `fetch()` once this basic API wrapper is not sufficient. For advanced applies.
 
-### `client.createRaw(collectionName, pojo)`
+### `client.createRaw(collectionName, rawObject)`
 
 Creates an arbitrary record in the particular collection.
 
-Arguments
+#### Arguments
 
-- `collectionName` - Collection to which the record should be added (_tasks_, _projects_ etc.)
-- `pojo` - Plain Old JavaScript Object denoting the record to add
+- `collectionName` (string) - Collection to which the record should be added (_tasks_, _projects_ etc.)
+- `rawObject` (object) - POJO denoting the record to add
 
 Example:
 
@@ -139,14 +142,14 @@ await client.createRaw("tasks", {
 });
 ```
 
-### `client.updateRaw(collectionName, pojo)`
+### `client.updateRaw(collectionName, rawObject)`
 
 Updates the arbitrary record in the particular collection.
 
-Arguments
+#### Arguments
 
-- `collectionName` - Collection to which the record should be updated (_tasks_, _projects_ etc.)
-- `pojo` - Plain Old JavaScript Object denoting the record to update. Should have the `id` key.
+- `collectionName` (string) - Collection to which the record should be updated (_tasks_, _projects_ etc.)
+- `rawObject` (object) - POJO denoting the record to update. Should have the `id` key.
 
 Example:
 
@@ -161,11 +164,24 @@ await client.updateRaw("tasks", {
 
 Removes the arbitrary record in the particular collection.
 
-- `collectionName` - Collection in which the record should be removed (_tasks_, _projects_ etc.)
-- `id` - Record ID
+- `collectionName` (string) - Collection in which the record should be removed (_tasks_, _projects_ etc.)
+- `id` (string) - Record ID
 
 Example:
 
 ```js
 await client.deleteRaw("tasks", "randomTaskId123");
+```
+
+## The `extra` parameter
+
+The `extra` object allows you to pass the undocumented parameters to the created entities without having to scrap your code and start from scratch with `createRaw()` once this basic API wrapper is not sufficient. For advanced applies.
+
+```js
+await client.addTask("A task name", "theProjectId", {
+  extra: {
+    responsible_id: "responsiblePersonId",
+    ended_at: 2137000000,
+  },
+});
 ```
