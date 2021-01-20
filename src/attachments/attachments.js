@@ -4,12 +4,13 @@ const randomId = require("../utils/randomId");
 
 const addAttachmentByFilesArray = async (
   apiClient,
-  { taskId, commentText, files }
+  { taskId, commentText, files, extra }
 ) => {
   const comment = {
     id: randomId(),
     task_id: taskId,
     body: commentText,
+    ...extra,
   };
 
   const attachment = {
@@ -30,18 +31,12 @@ const addAttachmentByFilesArray = async (
   await apiClient.post("sync", {
     comments: {
       created: [{ ...comment }],
-      updated: [],
-      deleted: [],
     },
     attachments: {
       created: [{ ...attachment }],
-      updated: [],
-      deleted: [],
     },
     attachment_versions: {
       created: [{ ...attachmentVersion }],
-      updated: [],
-      deleted: [],
     },
   });
 
@@ -79,18 +74,12 @@ const addAttachmentByFilesArray = async (
 //     await apiClient.post("sync", {
 //       comments: {
 //         created: [{ ...comment }],
-//         updated: [],
-//         deleted: [],
 //       },
 //       attachments: {
 //         created: [{ ...attachment }],
-//         updated: [],
-//         deleted: [],
 //       },
 //       attachment_versions: {
 //         created: [{ ...attachmentVersion }],
-//         updated: [],
-//         deleted: [],
 //       },
 //     });
 

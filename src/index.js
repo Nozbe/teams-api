@@ -4,6 +4,7 @@ const Tasks = require("./tasks/tasks");
 const Projects = require("./projects/projects");
 const Comments = require("./comments/comments");
 const Attachments = require("./attachments/attachments");
+const EscapeHatches = require("./hatches/hatches");
 
 class NozbeTeamsClient {
   constructor(apiKey) {
@@ -42,7 +43,7 @@ class NozbeTeamsClient {
     return tasks.filter((task) => !task.ended_at);
   }
 
-  async addTask(taskName, projectId) {
+  async addTask(taskName, projectId, extra) {
     if (!taskName) {
       throw new Error("taskName is missing");
     }
@@ -52,6 +53,7 @@ class NozbeTeamsClient {
     await Tasks.addTask(this._apiClient, {
       taskName,
       projectId: projectId || singleActionsProjectId,
+      extra,
     });
   }
 
@@ -71,7 +73,7 @@ class NozbeTeamsClient {
     return await Comments.getComments(this._apiClient, { taskId });
   }
 
-  async addComment(taskId, commentText) {
+  async addComment(taskId, commentText, extra) {
     if (!taskId) {
       throw new Error("taskId is missing");
     }
@@ -83,6 +85,7 @@ class NozbeTeamsClient {
     await Comments.addComment(this._apiClient, {
       taskId,
       commentText,
+      extra,
     });
   }
 
@@ -91,6 +94,43 @@ class NozbeTeamsClient {
       taskId,
       commentText,
       files,
+    });
+  }
+
+  async addAttachmentByUrl(
+    taskId,
+    commentText,
+    attachmentUrl,
+    attachmentFileName,
+    extra
+  ) {
+    return await Attachments.addAttachmentByUrl(this._apiClient, {
+      taskId,
+      commentText,
+      attachmentUrl,
+      attachmentFileName,
+      extra,
+    });
+  }
+
+  async createRaw(collectionName, rawObject) {
+    return await EscapeHatches.createRaw(this._apiClient, {
+      collectionName,
+      rawObject,
+    });
+  }
+
+  async updateRaw(collectionName, rawObject) {
+    return await EscapeHatches.updateRaw(this._apiClient, {
+      collectionName,
+      rawObject,
+    });
+  }
+
+  async deleteRaw(collectionName, id) {
+    return await EscapeHatches.deleteRaw(this._apiClient, {
+      collectionName,
+      id,
     });
   }
 
