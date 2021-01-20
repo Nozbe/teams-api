@@ -105,6 +105,7 @@ const App = () => {
         commentBody,
         formData
       );
+      await getComments(selectedTaskId);
     } catch (err) {
       console.error(err);
     }
