@@ -13,30 +13,38 @@ const addAttachmentByFilesArray = async (
     ...extra,
   };
 
-  const attachment = {
-    id: randomId(),
-    parent_id: comment.id,
-  };
-
-  const attachmentVersion = {
-    id: randomId(),
-    attachment_id: attachment.id,
-    name: files[0].name,
-  };
+  const attachments = [];
+  const attachmentVersions = [];
 
   const formData = new FormData();
 
-  formData.append(attachmentVersion.id, files[0], files[0].name);
+  files.forEach((file, index) => {
+    const attachment = {
+      id: randomId(),
+      parent_id: comment.id,
+    };
+
+    const attachmentVersion = {
+      id: randomId(),
+      attachment_id: attachment.id,
+      name: file.name || `file ${index + 1}`,
+    };
+
+    attachments.push(attachment);
+    attachmentVersions.push(attachmentVersion);
+
+    formData.append(attachmentVersion.id, file, attachmentVersion.name);
+  });
 
   await apiClient.post("sync", {
     comments: {
-      created: [{ ...comment }],
+      created: [comment],
     },
     attachments: {
-      created: [{ ...attachment }],
+      created: attachments,
     },
     attachment_versions: {
-      created: [{ ...attachmentVersion }],
+      created: attachmentVersions,
     },
   });
 
