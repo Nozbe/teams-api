@@ -13,9 +13,9 @@
     <img src="https://api.travis-ci.com/Nozbe/teams-api.svg?branch=master" alt="CI Status">
   </a> -->
 
-  <!-- <a href="https://www.npmjs.com/package/@nozbe/watermelondb">
-    <img src="https://img.shields.io/npm/v/@nozbe/watermelondb.svg" alt="npm">
-  </a> -->
+  <a href="https://www.npmjs.com/package/@nozbe/teams-api">
+    <img src="https://img.shields.io/npm/v/@nozbe/teams-api.svg" alt="npm">
+  </a>
 </p>
 
 <!-- |     | @nozbe/teams-api                                               |
