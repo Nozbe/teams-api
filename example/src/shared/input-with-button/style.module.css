@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-columns: auto 150px;
+  grid-template-columns: auto 180px;
 }
 
 .input {

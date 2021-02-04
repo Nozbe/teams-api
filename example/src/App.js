@@ -96,6 +96,21 @@ const App = () => {
     }
   };
 
+  const addAttachmentsByFilesArray = async (commentBody, formData) => {
+    try {
+      const { selectedTaskId } = state;
+
+      await client.addAttachmentByFilesArray(
+        selectedTaskId,
+        commentBody,
+        formData
+      );
+      await getComments(selectedTaskId);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const {
     user,
     projects,
@@ -127,7 +142,14 @@ const App = () => {
                 getComments,
               }}
             />
-            <CommentsList {...{ comments, selectedTaskId, addComment }} />
+            <CommentsList
+              {...{
+                comments,
+                selectedTaskId,
+                addComment,
+                addAttachmentsByFilesArray,
+              }}
+            />
           </PanesContainer>
         </>
       )}

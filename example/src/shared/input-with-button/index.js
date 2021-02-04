@@ -11,7 +11,13 @@ const Container = zacs.view(style.container, {});
 
 const Button = zacs.styled("button", style.button);
 
-const InputWithButton = ({ onClick, btnCaption, placeholder }) => {
+const InputWithButton = ({
+  onClick,
+  onChange,
+  value: valueProp,
+  btnCaption,
+  placeholder,
+}) => {
   const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
 
@@ -20,18 +26,25 @@ const InputWithButton = ({ onClick, btnCaption, placeholder }) => {
     setValue("");
   };
 
+  const handleChange = (event) => {
+    if (onChange) {
+      onChange(event.target.value);
+      return;
+    }
+
+    setValue(event.target.value);
+  };
+
   return (
     <Container>
       <Input
         type="text"
-        value={value}
+        value={valueProp || value}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         placeholder={placeholder}
         isFocused={focused}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
+        onChange={handleChange}
       />
       <Button onClick={handleButton}>{btnCaption || "Add task"}</Button>
     </Container>

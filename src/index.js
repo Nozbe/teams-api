@@ -89,6 +89,14 @@ class NozbeTeamsClient {
     });
   }
 
+  async addAttachmentByFilesArray(taskId, commentText, files) {
+    return await Attachments.addAttachmentByFilesArray(this._apiClient, {
+      taskId,
+      commentText,
+      files,
+    });
+  }
+
   async addAttachmentByUrl(
     taskId,
     commentText,
@@ -125,6 +133,24 @@ class NozbeTeamsClient {
       id,
     });
   }
+
+  // async addAttachmentFromUrl(
+  //   taskId,
+  //   commentText,
+  //   attachmentUrl,
+  //   attachmentFileName
+  // ) {
+  //   try {
+  //     await Attachments.addAttachmentFromUrl(this._apiClient, {
+  //       taskId,
+  //       commentText,
+  //       attachmentUrl,
+  //       attachmentFileName,
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 }
 
 exports = module.exports = NozbeTeamsClient;
