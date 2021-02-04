@@ -15,6 +15,10 @@
     "type": "git",
     "url": "git+https://github.com/Nozbe/teams-api.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "keywords": [
     "nozbe",
     "nozbe-teams",
