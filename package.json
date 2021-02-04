@@ -1,7 +1,7 @@
 {
   "name": "@nozbe/teams-api",
   "version": "0.0.1",
-  "description": "Nozbe Teams API wrapper for Node.js",
+  "description": "Official Nozbe Teams API wrapper for Node.js",
   "main": "dist/teams-api.js",
   "files": [
     "dist"
@@ -17,10 +17,19 @@
   },
   "keywords": [
     "nozbe",
-    "nozbe-teams"
+    "nozbe-teams",
+    "todo",
+    "task-management"
   ],
-  "author": "Krystian Kościelniak <krystian@koscielniak.pro>",
-  "license": "ISC",
+  "author": "Nozbe <devteam@nozbe.com> (https://nozbe.com)",
+  "contributors": [
+    {
+      "name": "Krystian Kościelniak",
+      "email": "krystian@koscielniak.pro",
+      "url": "https://koscielniak.pro"
+    }
+  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Nozbe/teams-api/issues"
   },
