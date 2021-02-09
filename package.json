@@ -2,7 +2,8 @@
   "name": "@nozbe/teams-api",
   "version": "0.0.1",
   "description": "Official Nozbe Teams API wrapper for Node.js",
-  "main": "dist/teams-api.js",
+  "main": "dist/teams-api.node.js",
+  "browser": "dist/teams-api.web.js",
   "files": [
     "dist"
   ],
@@ -39,10 +40,7 @@
   },
   "homepage": "https://github.com/Nozbe/teams-api#readme",
   "dependencies": {
-    "axios": "^0.21.0",
-    "form-data": "^3.0.0",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9"
+    "axios": "^0.21.0"
   },
   "devDependencies": {
     "webpack": "^5.2.0",
