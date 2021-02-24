@@ -14,9 +14,10 @@ const client = new NozbeTeams("fakeApiToken123456");
 
 ## Methods
 
-All the methods return `Promises`, which - if resolved - provide response from Nozbe Teams.
+### Responses
 
-The responses may provide more info than described.
+- Methods fetching entities to Nozbe Teams return `Promises`, which - if resolved - provide response from Nozbe Teams. The responses may provide more info than described.
+- Methods adding entities to Nozbe Teams return `null`.
 
 ### `client.getLoggedUserData()`
 
@@ -105,18 +106,6 @@ Adds comment to a particular task. Nozbe Teams renders comments in Markdown.
 
 - `taskId` (string) - ID of the task to which the comment should be added
 - `commentText` (string) - Text to add as a comment
-- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
-
-### `client.addAttachmentByUrl(taskId, commentText, attachmentUrl, attachmentFileName, [extra])`
-
-Adds comment with the attachment from the URL to a particular task.
-
-#### Arguments
-
-- `taskId` (string) - ID of the task to which the comment should be added
-- `commentText` (string) - Text to add as a comment
-- `attachmentUrl` (string) - URL of the attachment file
-- `attachmentFileName` (string) - Name under which the attachment should be saved
 - `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
 ## The "escape hatch" methods

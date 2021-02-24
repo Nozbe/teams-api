@@ -19,14 +19,16 @@ const App = () => {
   useEffect(() => {
     const authorize = async () => {
       try {
-        const response = await client.getLoggedUserData();
+        const response = await client.getLoggedUser();
 
         dispatch({
           type: "FETCH_USER_DATA_SUCCESS",
-          payload: response.data,
+          payload: response,
         });
 
-        const projectsResponse = await client.getProjects();
+        const projectsResponse = await client.getProjects({
+          withSingleTasks: true,
+        });
 
         dispatch({
           type: "FETCH_PROJECTS_SUCCESS",
