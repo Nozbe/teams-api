@@ -57,6 +57,25 @@ class NozbeTeamsClient {
     });
   }
 
+  async updateTask(taskId, taskName, extra) {
+    if (!taskId) {
+      throw new Error("taskId is missing");
+    }
+
+    if (!taskName) {
+      throw new Error("taskName is missing");
+    }
+
+    await EscapeHatches.updateRaw(this._apiClient, {
+      collectionName: "tasks",
+      rawObject: {
+        id: taskId,
+        name: taskName,
+        ...extra,
+      },
+    });
+  }
+
   async getProjects(options = {}) {
     const { withCompleted } = options;
 
