@@ -108,6 +108,16 @@ Adds comment to a particular task. Nozbe Teams renders comments in Markdown.
 - `commentText` (string) - Text to add as a comment
 - `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
+### `client.addAttachmentByFilesArray(taskId, commentText, files)`
+
+Adds comment with attachments to a particular task.
+
+#### Arguments
+
+- `taskId` (string) - ID of the task to which the comment should be added
+- `commentText` (string) - Text to add as a comment
+- `files` ([File]) - Array of the HTML5 `File`s.
+
 ## The "escape hatch" methods
 
 We don't document every single operation possible, but you still can pass an undocumented extra object without reverting to `fetch()` once this basic API wrapper is not sufficient. For advanced applies.
