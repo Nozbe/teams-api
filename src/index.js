@@ -32,7 +32,7 @@ class NozbeTeamsClient {
     return this.singleActionsProjectId;
   }
 
-  async getTasks(projectId, options = {}) {
+  async getTasks(projectId = null, options = {}) {
     const byProjectIdPredicate = (projectId) => (task, index, tasks) =>
       projectId ? task.project_id === projectId : tasks;
 
