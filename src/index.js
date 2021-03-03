@@ -1,79 +1,114 @@
-const instantiateAxios = require("./utils/axios-adapter");
+const ApiClient = require("./utils/api-client");
 
-const Tasks = require("./tasks/tasks");
-const Projects = require("./projects/projects");
-const Comments = require("./comments/comments");
-const Attachments = require("./attachments/attachments");
-const EscapeHatches = require("./hatches/hatches");
+const addAttachmentByFilesArray = require("./attachments/attachments")
+  .addAttachmentByFilesArray;
+
+const withCompletedPredicate = (withCompleted) => (entity, index, entities) =>
+  withCompleted ? entities : !entity.ended_at;
 
 class NozbeTeamsClient {
   constructor(apiKey) {
+    this._apiClient = new ApiClient(apiKey);
+
     this.apiKey = apiKey;
-    this._apiClient = instantiateAxios({
-      Authorization: `Apikey ${apiKey}`,
-    });
+    this.singleActionsProjectId = null;
   }
 
-  async _getSingleActionsProjectId() {
-    if (!this._singleActionsProjectId) {
-      this._singleActionsProjectId = await Projects.getSingleActionsProjectId(
-        this._apiClient
-      );
+  async getLoggedUser() {
+    return await this._apiClient.getMe();
+  }
+
+  async getSingleActionsProjectId() {
+    if (!this.singleActionsProjectId) {
+      const allProjects = await this._apiClient.getObjects("projects", {
+        selectiveSync2: true,
+      });
+
+      this.singleActionsProjectId = allProjects.find(
+        (project) => project.is_single_actions
+      ).id;
     }
 
-    return this._singleActionsProjectId;
+    return this.singleActionsProjectId;
   }
 
-  async getLoggedUserData() {
-    return await this._apiClient.get("me");
-  }
+  async getTasks(projectId = null, options = {}) {
+    const byProjectIdPredicate = (projectId) => (task, index, tasks) =>
+      projectId ? task.project_id === projectId : tasks;
 
-  async getTasks(projectId, options = {}) {
     const { withCompleted } = options;
 
-    const tasks = await Tasks.getTasks(this._apiClient, {
-      projectId,
-      withCompleted,
+    const tasks = await this._apiClient.getObjects("tasks", {
+      selectiveSync2: !withCompleted,
     });
 
-    if (withCompleted) {
-      return tasks;
-    }
-
-    return tasks.filter((task) => !task.ended_at);
+    return tasks
+      .filter(byProjectIdPredicate(projectId))
+      .filter(withCompletedPredicate(withCompleted));
   }
 
-  async addTask(taskName, projectId, extra) {
+  async addTask(taskName, projectId = null, extra = {}) {
     if (!taskName) {
       throw new Error("taskName is missing");
     }
 
-    const singleActionsProjectId = await this._getSingleActionsProjectId();
+    const singleActionsProjectId = await this.getSingleActionsProjectId();
 
-    await Tasks.addTask(this._apiClient, {
-      taskName,
-      projectId: projectId || singleActionsProjectId,
-      extra,
+    return await this._apiClient.createObject("tasks", {
+      name: taskName,
+      project_id: projectId || singleActionsProjectId,
+      review_reason: "newly_added",
+      responsible_id: "author",
+      ...extra,
+    });
+  }
+
+  async updateTask(taskId, taskName, extra = {}) {
+    if (!taskId) {
+      throw new Error("taskId is missing");
+    }
+
+    if (!taskName) {
+      throw new Error("taskName is missing");
+    }
+
+    return await this._apiClient.updateObject("tasks", {
+      id: taskId,
+      name: taskName,
+      ...extra,
     });
   }
 
   async getProjects(options = {}) {
-    const { withCompleted } = options;
+    const { withCompleted, withSingleTasks } = options;
 
-    const projects = await Projects.getProjects(this._apiClient);
+    const withSingleTasksPredicate = (withSingleTasks) => (
+      project,
+      index,
+      projects
+    ) => {
+      return withSingleTasks ? projects : !project.is_single_actions;
+    };
 
-    if (withCompleted) {
-      return projects;
-    }
+    const projects = await this._apiClient.getObjects("projects", {
+      selectiveSync2: !withCompleted,
+    });
 
-    return projects.filter((project) => !project.ended_at);
+    return projects
+      .filter(withCompletedPredicate(withCompleted))
+      .filter(withSingleTasksPredicate(withSingleTasks));
   }
 
-  async getComments(taskId) {
-    return await Comments.getComments(this._apiClient, { taskId });
+  async getComments(taskId = null) {
+    const byTaskIdPredicate = (comment, index, comments) =>
+      taskId ? comment.task_id === taskId : comments;
+
+    const comments = await this._apiClient.getObjects("comments");
+
+    return comments.filter(byTaskIdPredicate);
   }
 
-  async addComment(taskId, commentText, extra) {
+  async addComment(taskId, commentText, extra = {}) {
     if (!taskId) {
       throw new Error("taskId is missing");
     }
@@ -82,75 +117,43 @@ class NozbeTeamsClient {
       throw new Error("commentText is missing");
     }
 
-    await Comments.addComment(this._apiClient, {
-      taskId,
-      commentText,
-      extra,
+    await this._apiClient.createObject("comments", {
+      task_id: taskId,
+      body: commentText,
+      ...extra,
     });
   }
 
   async addAttachmentByFilesArray(taskId, commentText, files) {
-    return await Attachments.addAttachmentByFilesArray(this._apiClient, {
+    if (!taskId) {
+      throw new Error("taskId is missing");
+    }
+
+    if (!commentText) {
+      throw new Error("commentText is missing");
+    }
+
+    if (!files || !files.length) {
+      throw new Error("files array is missing or empty");
+    }
+    return await addAttachmentByFilesArray(this._apiClient.getAxiosInstance(), {
       taskId,
       commentText,
       files,
     });
   }
 
-  async addAttachmentByUrl(
-    taskId,
-    commentText,
-    attachmentUrl,
-    attachmentFileName,
-    extra
-  ) {
-    return await Attachments.addAttachmentByUrl(this._apiClient, {
-      taskId,
-      commentText,
-      attachmentUrl,
-      attachmentFileName,
-      extra,
-    });
-  }
-
   async createRaw(collectionName, rawObject) {
-    return await EscapeHatches.createRaw(this._apiClient, {
-      collectionName,
-      rawObject,
-    });
+    return await this._apiClient.createObject(collectionName, rawObject);
   }
 
   async updateRaw(collectionName, rawObject) {
-    return await EscapeHatches.updateRaw(this._apiClient, {
-      collectionName,
-      rawObject,
-    });
+    return await this._apiClient.updateObject(collectionName, rawObject);
   }
 
   async deleteRaw(collectionName, id) {
-    return await EscapeHatches.deleteRaw(this._apiClient, {
-      collectionName,
-      id,
-    });
+    return await this._apiClient.deleteObject(collectionName, id);
   }
-
-  // async addAttachmentFromUrl(
-  //   taskId,
-  //   commentText,
-  //   attachmentUrl,
-  //   attachmentFileName
-  // ) {
-  //   try {
-  //     await Attachments.addAttachmentFromUrl(this._apiClient, {
-  //       taskId,
-  //       commentText,
-  //       attachmentUrl,
-  //       attachmentFileName,
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
 }
 
 exports = module.exports = NozbeTeamsClient;

@@ -1,6 +1,6 @@
 {
   "name": "@nozbe/teams-api",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Official Nozbe Teams API wrapper for Node.js",
   "main": "dist/teams-api.node.js",
   "browser": "dist/teams-api.web.js",
