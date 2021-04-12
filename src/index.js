@@ -99,6 +99,22 @@ class NozbeTeamsClient {
       .filter(withSingleTasksPredicate(withSingleTasks));
   }
 
+  async addProject(projectName, teamId, extra = {}) {
+    if (!projectName) {
+      throw new Error("projectName is missing");
+    }
+
+    if (!teamId) {
+      throw new Error("teamId is missing");
+    }
+
+    return await this._apiClient.createObject("projects", {
+      name: projectName,
+      team_id: teamId,
+      ...extra,
+    });
+  }
+
   async getComments(taskId = null) {
     const byTaskIdPredicate = (comment, index, comments) =>
       taskId ? comment.task_id === taskId : comments;
@@ -136,6 +152,7 @@ class NozbeTeamsClient {
     if (!files || !files.length) {
       throw new Error("files array is missing or empty");
     }
+
     return await addAttachmentByFilesArray(this._apiClient.getAxiosInstance(), {
       taskId,
       commentText,

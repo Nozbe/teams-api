@@ -79,6 +79,16 @@ Fetches all projects created by the user
 - `is_favorite` - Indicates if the project is set as favorite by the user
 - `is_single_actions` - Indicates if the project is Single Tasks. There's only one Single Tasks project per account.
 
+### `client.addProject(projectName, teamId, [extra])`
+
+Adds new project. **For paid accounts only**.
+
+#### Arguments
+
+- `projectName` (string) - name of the added project
+- `teamId` (string) - ID of the team the project is assigned to
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
+
 ### `client.getComments(taskId)`
 
 Fetches all comments for the particular task
