@@ -37,7 +37,17 @@ const mapProjectParams = ({ projectName, isFavorite, isCompleted }) =>
     }
   );
 
+const mapCommentParams = ({ commentText, isDeleted }) =>
+  _filterOutUndefined(
+    {},
+    {
+      body: _evaluateIfDefined(commentText, commentText),
+      is_deleted: _evaluateIfDefined(isDeleted, isDeleted),
+    }
+  );
+
 module.exports = {
   mapTaskParams,
   mapProjectParams,
+  mapCommentParams,
 };

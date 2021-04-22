@@ -69,6 +69,10 @@ class NozbeTeamsClient {
       throw new Error("taskId is missing");
     }
 
+    if (!params) {
+      throw new Error("params are missing");
+    }
+
     const updatedTask = mapParams.mapTaskParams(params);
 
     await this._apiClient.updateObject("tasks", {
@@ -116,7 +120,11 @@ class NozbeTeamsClient {
 
   async updateProject(projectId, params, extra = {}) {
     if (!projectId) {
-      throw new Error("taskId is missing");
+      throw new Error("projectId is missing");
+    }
+
+    if (!params) {
+      throw new Error("params are missing");
     }
 
     const updatedProject = mapParams.mapProjectParams(params);
@@ -149,6 +157,24 @@ class NozbeTeamsClient {
     await this._apiClient.createObject("comments", {
       task_id: taskId,
       body: commentText,
+      ...extra,
+    });
+  }
+
+  async updateComment(commentId, params, extra = {}) {
+    if (!commentId) {
+      throw new Error("commentId is missing");
+    }
+
+    if (!params) {
+      throw new Error("params are missing");
+    }
+
+    const updatedComment = mapParams.mapCommentParams(params);
+
+    await this._apiClient.updateObject("comments", {
+      id: commentId,
+      ...updatedComment,
       ...extra,
     });
   }
