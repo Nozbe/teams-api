@@ -64,11 +64,11 @@ Adds a task to the particular project
 Updates the task
 
 - `taskId` (string) - Id of the task to update
-- `params` (object)- Parameters of the updated task. The parameters are optional:
+- `params` (object) - Parameters of the updated task. The parameters are optional:
   - `taskName` (string)(optional) - Updates the task name
-  - `completed` (bool)(optional) - Marks the task as completed/not completed
+  - `isCompleted` (bool)(optional) - Marks the task as completed/not completed
   - `isPriority` (bool)(optional) - Marks the task as a priority/non-priority
-- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter). Note: The extra parameter overrides `params`
 
 ### `client.getProjects([options])`
 
@@ -99,6 +99,17 @@ Adds new project. **For paid accounts only**.
 - `projectName` (string) - name of the added project
 - `teamId` (string) - ID of the team the project is assigned to
 - `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
+
+### `client.updateTask(taskId, params, [extra])`
+
+Updates the project
+
+- `projectId` (string) - Id of the project to update
+- `params` (object) - Parameters of the updated project. The parameters are optional:
+  - `projectName` (string)(optional) - Updates the project name
+  - `isCompleted` (bool)(optional) - Marks the project as completed/not completed
+  - `isFavorite` (bool)(optional) - Marks the project as a favorite
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter). Note: The extra parameter overrides `params`
 
 ### `client.getComments(taskId)`
 
