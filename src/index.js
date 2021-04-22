@@ -1,4 +1,5 @@
 const ApiClient = require("./utils/api-client");
+const mapTaskParams = require("./utils/map-options/map-options").mapTaskParams;
 
 const addAttachmentByFilesArray = require("./attachments/attachments")
   .addAttachmentByFilesArray;
@@ -63,18 +64,16 @@ class NozbeTeamsClient {
     });
   }
 
-  async updateTask(taskId, taskName, extra = {}) {
+  async updateTask(taskId, params, extra = {}) {
     if (!taskId) {
       throw new Error("taskId is missing");
     }
 
-    if (!taskName) {
-      throw new Error("taskName is missing");
-    }
+    const updatedTask = mapTaskParams(params);
 
-    return await this._apiClient.updateObject("tasks", {
+    await this._apiClient.updateObject("tasks", {
       id: taskId,
-      name: taskName,
+      ...updatedTask,
       ...extra,
     });
   }

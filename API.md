@@ -59,6 +59,17 @@ Adds a task to the particular project
   - If not given, task will be added to Single Tasks
 - `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
+### `client.updateTask(taskId, params, [extra])`
+
+Updates the task
+
+- `taskId` (string) - Id of the task to update
+- `params` (object)- Parameters of the updated task. The parameters are optional:
+  - `taskName` (string)(optional) - Updates the task name
+  - `completed` (bool)(optional) - Marks the task as completed/not completed
+  - `isPriority` (bool)(optional) - Marks the task as a priority/non-priority
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
+
 ### `client.getProjects([options])`
 
 Fetches all projects created by the user
