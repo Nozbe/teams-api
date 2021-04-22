@@ -100,7 +100,7 @@ Adds new project. **For paid accounts only**.
 - `teamId` (string) - ID of the team the project is assigned to
 - `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
-### `client.updateTask(taskId, params, [extra])`
+### `client.updateProject(projectId, params, [extra])`
 
 Updates the project
 
@@ -133,6 +133,16 @@ Fetches all comments for the particular task
 ### `client.addComment(taskId, commentText, [extra])`
 
 Adds comment to a particular task. Nozbe Teams renders comments in Markdown.
+
+### `client.updateComment(commentId, params, [extra])`
+
+Updates the comment
+
+- `commentId` (string) - Id of the comment to update
+- `params` (object) - Parameters of the updated comment. The parameters are optional:
+  - `commentText` (string)(optional) - Updates the comment's text
+  - `isDeleted` (bool)(optional) - Removes the comment. **Note:** It's irreversible
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter). Note: The extra parameter overrides `params`
 
 #### Arguments
 
