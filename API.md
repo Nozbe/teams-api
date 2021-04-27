@@ -59,6 +59,17 @@ Adds a task to the particular project
   - If not given, task will be added to Single Tasks
 - `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
 
+### `client.updateTask(taskId, params, [extra])`
+
+Updates the task
+
+- `taskId` (string) - Id of the task to update
+- `params` (object) - Parameters of the updated task. The parameters are optional:
+  - `taskName` (string)(optional) - Updates the task name
+  - `isCompleted` (bool)(optional) - Marks the task as completed/not completed
+  - `isPriority` (bool)(optional) - Marks the task as a priority/non-priority
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter). Note: The extra parameter overrides `params`
+
 ### `client.getProjects([options])`
 
 Fetches all projects created by the user
@@ -78,6 +89,27 @@ Fetches all projects created by the user
 - `created_at` - Timestamp for when the project was created
 - `is_favorite` - Indicates if the project is set as favorite by the user
 - `is_single_actions` - Indicates if the project is Single Tasks. There's only one Single Tasks project per account.
+
+### `client.addProject(projectName, teamId, [extra])`
+
+Adds new project. **For paid accounts only**.
+
+#### Arguments
+
+- `projectName` (string) - name of the added project
+- `teamId` (string) - ID of the team the project is assigned to
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter)
+
+### `client.updateProject(projectId, params, [extra])`
+
+Updates the project
+
+- `projectId` (string) - Id of the project to update
+- `params` (object) - Parameters of the updated project. The parameters are optional:
+  - `projectName` (string)(optional) - Updates the project name
+  - `isCompleted` (bool)(optional) - Marks the project as completed/not completed
+  - `isFavorite` (bool)(optional) - Marks the project as a favorite
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter). Note: The extra parameter overrides `params`
 
 ### `client.getComments(taskId)`
 
@@ -101,6 +133,16 @@ Fetches all comments for the particular task
 ### `client.addComment(taskId, commentText, [extra])`
 
 Adds comment to a particular task. Nozbe Teams renders comments in Markdown.
+
+### `client.updateComment(commentId, params, [extra])`
+
+Updates the comment
+
+- `commentId` (string) - Id of the comment to update
+- `params` (object) - Parameters of the updated comment. The parameters are optional:
+  - `commentText` (string)(optional) - Updates the comment's text
+  - `isDeleted` (bool)(optional) - Removes the comment. **Note:** It's irreversible
+- `extra` (object)(optional) - See [_the `extra` parameter_](#the-extra-parameter). Note: The extra parameter overrides `params`
 
 #### Arguments
 

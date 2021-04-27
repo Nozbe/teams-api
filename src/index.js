@@ -1,4 +1,5 @@
 const ApiClient = require("./utils/api-client");
+const mapParams = require("./utils/map-params/map-params");
 
 const addAttachmentByFilesArray = require("./attachments/attachments")
   .addAttachmentByFilesArray;
@@ -63,18 +64,20 @@ class NozbeTeamsClient {
     });
   }
 
-  async updateTask(taskId, taskName, extra = {}) {
+  async updateTask(taskId, params, extra = {}) {
     if (!taskId) {
       throw new Error("taskId is missing");
     }
 
-    if (!taskName) {
-      throw new Error("taskName is missing");
+    if (!params) {
+      throw new Error("params are missing");
     }
 
-    return await this._apiClient.updateObject("tasks", {
+    const updatedTask = mapParams.mapTaskParams(params);
+
+    await this._apiClient.updateObject("tasks", {
       id: taskId,
-      name: taskName,
+      ...updatedTask,
       ...extra,
     });
   }
@@ -97,6 +100,40 @@ class NozbeTeamsClient {
     return projects
       .filter(withCompletedPredicate(withCompleted))
       .filter(withSingleTasksPredicate(withSingleTasks));
+  }
+
+  async addProject(projectName, teamId, extra = {}) {
+    if (!projectName) {
+      throw new Error("projectName is missing");
+    }
+
+    if (!teamId) {
+      throw new Error("teamId is missing");
+    }
+
+    return await this._apiClient.createObject("projects", {
+      name: projectName,
+      team_id: teamId,
+      ...extra,
+    });
+  }
+
+  async updateProject(projectId, params, extra = {}) {
+    if (!projectId) {
+      throw new Error("projectId is missing");
+    }
+
+    if (!params) {
+      throw new Error("params are missing");
+    }
+
+    const updatedProject = mapParams.mapProjectParams(params);
+
+    await this._apiClient.updateObject("projects", {
+      id: projectId,
+      ...updatedProject,
+      ...extra,
+    });
   }
 
   async getComments(taskId = null) {
@@ -124,6 +161,24 @@ class NozbeTeamsClient {
     });
   }
 
+  async updateComment(commentId, params, extra = {}) {
+    if (!commentId) {
+      throw new Error("commentId is missing");
+    }
+
+    if (!params) {
+      throw new Error("params are missing");
+    }
+
+    const updatedComment = mapParams.mapCommentParams(params);
+
+    await this._apiClient.updateObject("comments", {
+      id: commentId,
+      ...updatedComment,
+      ...extra,
+    });
+  }
+
   async addAttachmentByFilesArray(taskId, commentText, files) {
     if (!taskId) {
       throw new Error("taskId is missing");
@@ -136,6 +191,7 @@ class NozbeTeamsClient {
     if (!files || !files.length) {
       throw new Error("files array is missing or empty");
     }
+
     return await addAttachmentByFilesArray(this._apiClient.getAxiosInstance(), {
       taskId,
       commentText,
